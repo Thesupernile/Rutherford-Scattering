@@ -8,15 +8,26 @@
 #include "Renderer.h"
 
 Shader::Shader(const std::string& filepath)
-	: m_FilePath(filepath), m_RendererID(0)
+	: m_RendererID(0)
 {
-    ShaderProgramSource source = ParseShader(filepath);
-    m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
+    SetShaderProgram(filepath);
+}
+
+Shader::Shader() : m_RendererID(0)
+{
+
 }
 
 Shader::~Shader()
 {
     GLCall(glDeleteProgram(m_RendererID));
+}
+
+void Shader::SetShaderProgram(const std::string& filepath)
+{
+    m_FilePath = filepath;
+    ShaderProgramSource source = ParseShader(filepath);
+    m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
 }
 
 void Shader::Bind() const

@@ -4,6 +4,21 @@
 Texture::Texture(const std::string& path)
 	: m_RendererID(0), m_FilePath(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
 {
+	SetTexture(path);
+}
+
+Texture::Texture()
+{
+
+}
+
+Texture::~Texture()
+{
+	GLCall(glDeleteTextures(1, &m_RendererID));
+}
+
+void Texture::SetTexture(const std::string& path)
+{
 	// Open GL requires that textures be loaded with bottom left as zero zero wheras PNG uses top left as zero zero
 	stbi_set_flip_vertically_on_load(1);
 	m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BPP, 4); // 4 since RGBA
@@ -22,11 +37,6 @@ Texture::Texture(const std::string& path)
 	if (m_LocalBuffer) {
 		stbi_image_free(m_LocalBuffer);
 	}
-}
-
-Texture::~Texture()
-{
-	GLCall(glDeleteTextures(1, &m_RendererID));
 }
 
 void Texture::Bind(unsigned int slot) const

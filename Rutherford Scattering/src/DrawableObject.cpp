@@ -1,34 +1,64 @@
 #include "DrawableObject.h"
 
-DrawableObject::DrawableObject(const void* vertexData, const VertexBufferLayout& vertexLayout, unsigned int* indexData, std::string& shaderFilePath, std::string& textureFilePath)
-: layout(vertexLayout), vb(VertexBuffer(vertexData, sizeof(vertexData))), ib(IndexBuffer(indexData, sizeof(*indexData) / sizeof((&indexData)[0]))), shader(Shader(shaderFilePath)), texture(Texture(textureFilePath))
+RutherfordScattering::DrawableObject::DrawableObject()
 {
+	numVerticesPerObject = 0;
+}
+
+void RutherfordScattering::DrawableObject::SetVertexBufferData(const void* data, unsigned int size) {
+	vb.AddBufferData(data, size);
 	va.AddBuffer(vb, layout);
 }
 
-DrawableObject::~DrawableObject()
-{
-
+void RutherfordScattering::DrawableObject::SetIndexBufferData(unsigned int* data, unsigned int count) {
+	ib.AddBufferData(data, count);
 }
 
-void DrawableObject::SetPos(float x, float y, float z)
+void RutherfordScattering::DrawableObject::SetShader(std::string path) {
+	shader.SetShaderProgram(path);
+}
+
+void RutherfordScattering::DrawableObject::SetTexture(std::string path) {
+	texture.SetTexture(path);
+}
+
+RutherfordScattering::DrawableObject::~DrawableObject()
+{
+	delete[] pVertices;
+	delete[] pIndexes;
+}
+
+std::vector<unsigned int> RutherfordScattering::DrawableObject::ParseIndices(objectIndex* data) {
+	std::vector<unsigned int> parsedData;
+
+	for (int i = 0; i < numVerticesPerObject; i++) {
+		parsedData.push_back(data[i].v1);
+		parsedData.push_back(data[i].v2);
+		parsedData.push_back(data[i].v3);
+	}
+
+	return parsedData;
+}
+
+void RutherfordScattering::DrawableObject::SetPos(float x, float y, float z)
 {
 	position.x = x;
 	position.y = y;
 	position.z = z;
 }
 
-void DrawableObject::Draw(glm::mat4 VPMatrix, Renderer& renderer)
+void RutherfordScattering::DrawableObject::Draw(glm::mat4 VPMatrix, Renderer& renderer)
 {
 	va.Bind();
 	shader.Bind();
 	texture.Bind();
 
 	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position);
+	modelMatrix = modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(scale));
 	glm::mat4 MVP = VPMatrix * modelMatrix;
 
 	shader.SetUniform1i("u_Texture", 0);
-	shader.SetUniform4f("u_Colour", 0.0f, 0.0f, 0.0f, 0.0f);
+	shader.SetUniform4f("u_Colour", 1.0f, 1.0f, 0.0f, 1.0f);
 	shader.SetUniformMat4f("u_MVP", MVP);
 
 	renderer.Draw(va, ib, shader);

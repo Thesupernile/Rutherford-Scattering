@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{653e7849-118f-4236-9351-8372ec433fed}</ProjectGuid>
-    <RootNamespace>OpenGLLearning</RootNamespace>
+    <ProjectGuid>{b33ed571-fa66-46df-83dc-1db31406b671}</ProjectGuid>
+    <RootNamespace>RutherfordScattering</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,15 +74,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies);glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,30 +91,30 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies);glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies);glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -123,23 +123,25 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/vendor;$(SolutionDir)Dependencies\GLFW\include;%(AdditionalIncludeDirectories);$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies);glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\DrawableObject.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Rutherford Scattering.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Simulation.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui.cpp" />
@@ -154,153 +156,13 @@
     <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\basic.shader" />
-    <None Include="src\vendor\glm\detail\func_common.inl" />
-    <None Include="src\vendor\glm\detail\func_common_simd.inl" />
-    <None Include="src\vendor\glm\detail\func_exponential.inl" />
-    <None Include="src\vendor\glm\detail\func_exponential_simd.inl" />
-    <None Include="src\vendor\glm\detail\func_geometric.inl" />
-    <None Include="src\vendor\glm\detail\func_geometric_simd.inl" />
-    <None Include="src\vendor\glm\detail\func_integer.inl" />
-    <None Include="src\vendor\glm\detail\func_integer_simd.inl" />
-    <None Include="src\vendor\glm\detail\func_matrix.inl" />
-    <None Include="src\vendor\glm\detail\func_matrix_simd.inl" />
-    <None Include="src\vendor\glm\detail\func_packing.inl" />
-    <None Include="src\vendor\glm\detail\func_packing_simd.inl" />
-    <None Include="src\vendor\glm\detail\func_trigonometric.inl" />
-    <None Include="src\vendor\glm\detail\func_trigonometric_simd.inl" />
-    <None Include="src\vendor\glm\detail\func_vector_relational.inl" />
-    <None Include="src\vendor\glm\detail\func_vector_relational_simd.inl" />
-    <None Include="src\vendor\glm\detail\type_half.inl" />
-    <None Include="src\vendor\glm\detail\type_mat2x2.inl" />
-    <None Include="src\vendor\glm\detail\type_mat2x3.inl" />
-    <None Include="src\vendor\glm\detail\type_mat2x4.inl" />
-    <None Include="src\vendor\glm\detail\type_mat3x2.inl" />
-    <None Include="src\vendor\glm\detail\type_mat3x3.inl" />
-    <None Include="src\vendor\glm\detail\type_mat3x4.inl" />
-    <None Include="src\vendor\glm\detail\type_mat4x2.inl" />
-    <None Include="src\vendor\glm\detail\type_mat4x3.inl" />
-    <None Include="src\vendor\glm\detail\type_mat4x4.inl" />
-    <None Include="src\vendor\glm\detail\type_mat4x4_simd.inl" />
-    <None Include="src\vendor\glm\detail\type_quat.inl" />
-    <None Include="src\vendor\glm\detail\type_quat_simd.inl" />
-    <None Include="src\vendor\glm\detail\type_vec1.inl" />
-    <None Include="src\vendor\glm\detail\type_vec2.inl" />
-    <None Include="src\vendor\glm\detail\type_vec3.inl" />
-    <None Include="src\vendor\glm\detail\type_vec4.inl" />
-    <None Include="src\vendor\glm\detail\type_vec_simd.inl" />
-    <None Include="src\vendor\glm\ext\matrix_clip_space.inl" />
-    <None Include="src\vendor\glm\ext\matrix_common.inl" />
-    <None Include="src\vendor\glm\ext\matrix_integer.inl" />
-    <None Include="src\vendor\glm\ext\matrix_projection.inl" />
-    <None Include="src\vendor\glm\ext\matrix_relational.inl" />
-    <None Include="src\vendor\glm\ext\matrix_transform.inl" />
-    <None Include="src\vendor\glm\ext\quaternion_common.inl" />
-    <None Include="src\vendor\glm\ext\quaternion_common_simd.inl" />
-    <None Include="src\vendor\glm\ext\quaternion_exponential.inl" />
-    <None Include="src\vendor\glm\ext\quaternion_geometric.inl" />
-    <None Include="src\vendor\glm\ext\quaternion_relational.inl" />
-    <None Include="src\vendor\glm\ext\quaternion_transform.inl" />
-    <None Include="src\vendor\glm\ext\quaternion_trigonometric.inl" />
-    <None Include="src\vendor\glm\ext\scalar_common.inl" />
-    <None Include="src\vendor\glm\ext\scalar_constants.inl" />
-    <None Include="src\vendor\glm\ext\scalar_integer.inl" />
-    <None Include="src\vendor\glm\ext\scalar_packing.inl" />
-    <None Include="src\vendor\glm\ext\scalar_reciprocal.inl" />
-    <None Include="src\vendor\glm\ext\scalar_relational.inl" />
-    <None Include="src\vendor\glm\ext\scalar_ulp.inl" />
-    <None Include="src\vendor\glm\ext\vector_common.inl" />
-    <None Include="src\vendor\glm\ext\vector_integer.inl" />
-    <None Include="src\vendor\glm\ext\vector_packing.inl" />
-    <None Include="src\vendor\glm\ext\vector_reciprocal.inl" />
-    <None Include="src\vendor\glm\ext\vector_relational.inl" />
-    <None Include="src\vendor\glm\ext\vector_ulp.inl" />
-    <None Include="src\vendor\glm\gtc\bitfield.inl" />
-    <None Include="src\vendor\glm\gtc\color_space.inl" />
-    <None Include="src\vendor\glm\gtc\constants.inl" />
-    <None Include="src\vendor\glm\gtc\epsilon.inl" />
-    <None Include="src\vendor\glm\gtc\integer.inl" />
-    <None Include="src\vendor\glm\gtc\matrix_access.inl" />
-    <None Include="src\vendor\glm\gtc\matrix_inverse.inl" />
-    <None Include="src\vendor\glm\gtc\matrix_transform.inl" />
-    <None Include="src\vendor\glm\gtc\noise.inl" />
-    <None Include="src\vendor\glm\gtc\packing.inl" />
-    <None Include="src\vendor\glm\gtc\quaternion.inl" />
-    <None Include="src\vendor\glm\gtc\quaternion_simd.inl" />
-    <None Include="src\vendor\glm\gtc\random.inl" />
-    <None Include="src\vendor\glm\gtc\round.inl" />
-    <None Include="src\vendor\glm\gtc\type_precision.inl" />
-    <None Include="src\vendor\glm\gtc\type_ptr.inl" />
-    <None Include="src\vendor\glm\gtc\ulp.inl" />
-    <None Include="src\vendor\glm\gtx\associated_min_max.inl" />
-    <None Include="src\vendor\glm\gtx\bit.inl" />
-    <None Include="src\vendor\glm\gtx\closest_point.inl" />
-    <None Include="src\vendor\glm\gtx\color_encoding.inl" />
-    <None Include="src\vendor\glm\gtx\color_space.inl" />
-    <None Include="src\vendor\glm\gtx\color_space_YCoCg.inl" />
-    <None Include="src\vendor\glm\gtx\common.inl" />
-    <None Include="src\vendor\glm\gtx\compatibility.inl" />
-    <None Include="src\vendor\glm\gtx\component_wise.inl" />
-    <None Include="src\vendor\glm\gtx\dual_quaternion.inl" />
-    <None Include="src\vendor\glm\gtx\easing.inl" />
-    <None Include="src\vendor\glm\gtx\euler_angles.inl" />
-    <None Include="src\vendor\glm\gtx\extend.inl" />
-    <None Include="src\vendor\glm\gtx\extended_min_max.inl" />
-    <None Include="src\vendor\glm\gtx\exterior_product.inl" />
-    <None Include="src\vendor\glm\gtx\fast_exponential.inl" />
-    <None Include="src\vendor\glm\gtx\fast_square_root.inl" />
-    <None Include="src\vendor\glm\gtx\fast_trigonometry.inl" />
-    <None Include="src\vendor\glm\gtx\float_normalize.inl" />
-    <None Include="src\vendor\glm\gtx\functions.inl" />
-    <None Include="src\vendor\glm\gtx\gradient_paint.inl" />
-    <None Include="src\vendor\glm\gtx\handed_coordinate_space.inl" />
-    <None Include="src\vendor\glm\gtx\hash.inl" />
-    <None Include="src\vendor\glm\gtx\integer.inl" />
-    <None Include="src\vendor\glm\gtx\intersect.inl" />
-    <None Include="src\vendor\glm\gtx\io.inl" />
-    <None Include="src\vendor\glm\gtx\iteration.inl" />
-    <None Include="src\vendor\glm\gtx\log_base.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_cross_product.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_decompose.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_factorisation.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_interpolation.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_major_storage.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_operation.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_query.inl" />
-    <None Include="src\vendor\glm\gtx\matrix_transform_2d.inl" />
-    <None Include="src\vendor\glm\gtx\mixed_product.inl" />
-    <None Include="src\vendor\glm\gtx\norm.inl" />
-    <None Include="src\vendor\glm\gtx\normal.inl" />
-    <None Include="src\vendor\glm\gtx\normalize_dot.inl" />
-    <None Include="src\vendor\glm\gtx\optimum_pow.inl" />
-    <None Include="src\vendor\glm\gtx\orthonormalize.inl" />
-    <None Include="src\vendor\glm\gtx\pca.inl" />
-    <None Include="src\vendor\glm\gtx\perpendicular.inl" />
-    <None Include="src\vendor\glm\gtx\polar_coordinates.inl" />
-    <None Include="src\vendor\glm\gtx\projection.inl" />
-    <None Include="src\vendor\glm\gtx\quaternion.inl" />
-    <None Include="src\vendor\glm\gtx\raw_data.inl" />
-    <None Include="src\vendor\glm\gtx\rotate_normalized_axis.inl" />
-    <None Include="src\vendor\glm\gtx\rotate_vector.inl" />
-    <None Include="src\vendor\glm\gtx\scalar_relational.inl" />
-    <None Include="src\vendor\glm\gtx\spline.inl" />
-    <None Include="src\vendor\glm\gtx\std_based_type.inl" />
-    <None Include="src\vendor\glm\gtx\string_cast.inl" />
-    <None Include="src\vendor\glm\gtx\structured_bindings.inl" />
-    <None Include="src\vendor\glm\gtx\texture.inl" />
-    <None Include="src\vendor\glm\gtx\transform.inl" />
-    <None Include="src\vendor\glm\gtx\transform2.inl" />
-    <None Include="src\vendor\glm\gtx\type_aligned.inl" />
-    <None Include="src\vendor\glm\gtx\type_trait.inl" />
-    <None Include="src\vendor\glm\gtx\vector_angle.inl" />
-    <None Include="src\vendor\glm\gtx\vector_query.inl" />
-    <None Include="src\vendor\glm\gtx\wrap.inl" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\DrawableObject.h" />
     <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Simulation.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />
@@ -607,9 +469,150 @@
     <ClInclude Include="src\VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\textures\Ashensign.png" />
-    <Image Include="res\textures\AshensignNegative.png" />
-    <Image Include="res\textures\AshensignWithBackground.png" />
+    <None Include="res\shaders\particle.shader" />
+    <None Include="src\vendor\glm\detail\func_common.inl" />
+    <None Include="src\vendor\glm\detail\func_common_simd.inl" />
+    <None Include="src\vendor\glm\detail\func_exponential.inl" />
+    <None Include="src\vendor\glm\detail\func_exponential_simd.inl" />
+    <None Include="src\vendor\glm\detail\func_geometric.inl" />
+    <None Include="src\vendor\glm\detail\func_geometric_simd.inl" />
+    <None Include="src\vendor\glm\detail\func_integer.inl" />
+    <None Include="src\vendor\glm\detail\func_integer_simd.inl" />
+    <None Include="src\vendor\glm\detail\func_matrix.inl" />
+    <None Include="src\vendor\glm\detail\func_matrix_simd.inl" />
+    <None Include="src\vendor\glm\detail\func_packing.inl" />
+    <None Include="src\vendor\glm\detail\func_packing_simd.inl" />
+    <None Include="src\vendor\glm\detail\func_trigonometric.inl" />
+    <None Include="src\vendor\glm\detail\func_trigonometric_simd.inl" />
+    <None Include="src\vendor\glm\detail\func_vector_relational.inl" />
+    <None Include="src\vendor\glm\detail\func_vector_relational_simd.inl" />
+    <None Include="src\vendor\glm\detail\type_half.inl" />
+    <None Include="src\vendor\glm\detail\type_mat2x2.inl" />
+    <None Include="src\vendor\glm\detail\type_mat2x3.inl" />
+    <None Include="src\vendor\glm\detail\type_mat2x4.inl" />
+    <None Include="src\vendor\glm\detail\type_mat3x2.inl" />
+    <None Include="src\vendor\glm\detail\type_mat3x3.inl" />
+    <None Include="src\vendor\glm\detail\type_mat3x4.inl" />
+    <None Include="src\vendor\glm\detail\type_mat4x2.inl" />
+    <None Include="src\vendor\glm\detail\type_mat4x3.inl" />
+    <None Include="src\vendor\glm\detail\type_mat4x4.inl" />
+    <None Include="src\vendor\glm\detail\type_mat4x4_simd.inl" />
+    <None Include="src\vendor\glm\detail\type_quat.inl" />
+    <None Include="src\vendor\glm\detail\type_quat_simd.inl" />
+    <None Include="src\vendor\glm\detail\type_vec1.inl" />
+    <None Include="src\vendor\glm\detail\type_vec2.inl" />
+    <None Include="src\vendor\glm\detail\type_vec3.inl" />
+    <None Include="src\vendor\glm\detail\type_vec4.inl" />
+    <None Include="src\vendor\glm\detail\type_vec_simd.inl" />
+    <None Include="src\vendor\glm\ext\matrix_clip_space.inl" />
+    <None Include="src\vendor\glm\ext\matrix_common.inl" />
+    <None Include="src\vendor\glm\ext\matrix_integer.inl" />
+    <None Include="src\vendor\glm\ext\matrix_projection.inl" />
+    <None Include="src\vendor\glm\ext\matrix_relational.inl" />
+    <None Include="src\vendor\glm\ext\matrix_transform.inl" />
+    <None Include="src\vendor\glm\ext\quaternion_common.inl" />
+    <None Include="src\vendor\glm\ext\quaternion_common_simd.inl" />
+    <None Include="src\vendor\glm\ext\quaternion_exponential.inl" />
+    <None Include="src\vendor\glm\ext\quaternion_geometric.inl" />
+    <None Include="src\vendor\glm\ext\quaternion_relational.inl" />
+    <None Include="src\vendor\glm\ext\quaternion_transform.inl" />
+    <None Include="src\vendor\glm\ext\quaternion_trigonometric.inl" />
+    <None Include="src\vendor\glm\ext\scalar_common.inl" />
+    <None Include="src\vendor\glm\ext\scalar_constants.inl" />
+    <None Include="src\vendor\glm\ext\scalar_integer.inl" />
+    <None Include="src\vendor\glm\ext\scalar_packing.inl" />
+    <None Include="src\vendor\glm\ext\scalar_reciprocal.inl" />
+    <None Include="src\vendor\glm\ext\scalar_relational.inl" />
+    <None Include="src\vendor\glm\ext\scalar_ulp.inl" />
+    <None Include="src\vendor\glm\ext\vector_common.inl" />
+    <None Include="src\vendor\glm\ext\vector_integer.inl" />
+    <None Include="src\vendor\glm\ext\vector_packing.inl" />
+    <None Include="src\vendor\glm\ext\vector_reciprocal.inl" />
+    <None Include="src\vendor\glm\ext\vector_relational.inl" />
+    <None Include="src\vendor\glm\ext\vector_ulp.inl" />
+    <None Include="src\vendor\glm\gtc\bitfield.inl" />
+    <None Include="src\vendor\glm\gtc\color_space.inl" />
+    <None Include="src\vendor\glm\gtc\constants.inl" />
+    <None Include="src\vendor\glm\gtc\epsilon.inl" />
+    <None Include="src\vendor\glm\gtc\integer.inl" />
+    <None Include="src\vendor\glm\gtc\matrix_access.inl" />
+    <None Include="src\vendor\glm\gtc\matrix_inverse.inl" />
+    <None Include="src\vendor\glm\gtc\matrix_transform.inl" />
+    <None Include="src\vendor\glm\gtc\noise.inl" />
+    <None Include="src\vendor\glm\gtc\packing.inl" />
+    <None Include="src\vendor\glm\gtc\quaternion.inl" />
+    <None Include="src\vendor\glm\gtc\quaternion_simd.inl" />
+    <None Include="src\vendor\glm\gtc\random.inl" />
+    <None Include="src\vendor\glm\gtc\round.inl" />
+    <None Include="src\vendor\glm\gtc\type_precision.inl" />
+    <None Include="src\vendor\glm\gtc\type_ptr.inl" />
+    <None Include="src\vendor\glm\gtc\ulp.inl" />
+    <None Include="src\vendor\glm\gtx\associated_min_max.inl" />
+    <None Include="src\vendor\glm\gtx\bit.inl" />
+    <None Include="src\vendor\glm\gtx\closest_point.inl" />
+    <None Include="src\vendor\glm\gtx\color_encoding.inl" />
+    <None Include="src\vendor\glm\gtx\color_space.inl" />
+    <None Include="src\vendor\glm\gtx\color_space_YCoCg.inl" />
+    <None Include="src\vendor\glm\gtx\common.inl" />
+    <None Include="src\vendor\glm\gtx\compatibility.inl" />
+    <None Include="src\vendor\glm\gtx\component_wise.inl" />
+    <None Include="src\vendor\glm\gtx\dual_quaternion.inl" />
+    <None Include="src\vendor\glm\gtx\easing.inl" />
+    <None Include="src\vendor\glm\gtx\euler_angles.inl" />
+    <None Include="src\vendor\glm\gtx\extend.inl" />
+    <None Include="src\vendor\glm\gtx\extended_min_max.inl" />
+    <None Include="src\vendor\glm\gtx\exterior_product.inl" />
+    <None Include="src\vendor\glm\gtx\fast_exponential.inl" />
+    <None Include="src\vendor\glm\gtx\fast_square_root.inl" />
+    <None Include="src\vendor\glm\gtx\fast_trigonometry.inl" />
+    <None Include="src\vendor\glm\gtx\float_normalize.inl" />
+    <None Include="src\vendor\glm\gtx\functions.inl" />
+    <None Include="src\vendor\glm\gtx\gradient_paint.inl" />
+    <None Include="src\vendor\glm\gtx\handed_coordinate_space.inl" />
+    <None Include="src\vendor\glm\gtx\hash.inl" />
+    <None Include="src\vendor\glm\gtx\integer.inl" />
+    <None Include="src\vendor\glm\gtx\intersect.inl" />
+    <None Include="src\vendor\glm\gtx\io.inl" />
+    <None Include="src\vendor\glm\gtx\iteration.inl" />
+    <None Include="src\vendor\glm\gtx\log_base.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_cross_product.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_decompose.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_factorisation.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_interpolation.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_major_storage.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_operation.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_query.inl" />
+    <None Include="src\vendor\glm\gtx\matrix_transform_2d.inl" />
+    <None Include="src\vendor\glm\gtx\mixed_product.inl" />
+    <None Include="src\vendor\glm\gtx\norm.inl" />
+    <None Include="src\vendor\glm\gtx\normal.inl" />
+    <None Include="src\vendor\glm\gtx\normalize_dot.inl" />
+    <None Include="src\vendor\glm\gtx\optimum_pow.inl" />
+    <None Include="src\vendor\glm\gtx\orthonormalize.inl" />
+    <None Include="src\vendor\glm\gtx\pca.inl" />
+    <None Include="src\vendor\glm\gtx\perpendicular.inl" />
+    <None Include="src\vendor\glm\gtx\polar_coordinates.inl" />
+    <None Include="src\vendor\glm\gtx\projection.inl" />
+    <None Include="src\vendor\glm\gtx\quaternion.inl" />
+    <None Include="src\vendor\glm\gtx\raw_data.inl" />
+    <None Include="src\vendor\glm\gtx\rotate_normalized_axis.inl" />
+    <None Include="src\vendor\glm\gtx\rotate_vector.inl" />
+    <None Include="src\vendor\glm\gtx\scalar_relational.inl" />
+    <None Include="src\vendor\glm\gtx\spline.inl" />
+    <None Include="src\vendor\glm\gtx\std_based_type.inl" />
+    <None Include="src\vendor\glm\gtx\string_cast.inl" />
+    <None Include="src\vendor\glm\gtx\structured_bindings.inl" />
+    <None Include="src\vendor\glm\gtx\texture.inl" />
+    <None Include="src\vendor\glm\gtx\transform.inl" />
+    <None Include="src\vendor\glm\gtx\transform2.inl" />
+    <None Include="src\vendor\glm\gtx\type_aligned.inl" />
+    <None Include="src\vendor\glm\gtx\type_trait.inl" />
+    <None Include="src\vendor\glm\gtx\vector_angle.inl" />
+    <None Include="src\vendor\glm\gtx\vector_query.inl" />
+    <None Include="src\vendor\glm\gtx\wrap.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\emptyTexture.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
