@@ -13,20 +13,27 @@ namespace RutherfordScattering {
 	private:
 		static constexpr float PI = 3.141592;
 
-		int protonNumber;
-		int nucleonNumber;
-		Constants& constants;
+		int _protonNumber;
+		int _nucleonNumber;
+		bool _isMovable;
+		Constants& _constants;
 
-		glm::vec3 velocity = glm::vec3(0, 0, 0);
+		glm::vec3 _velocity = glm::vec3(0, 0, 0);
 
 		void generateParticleVertexes();
 		void generateParticleIndexes();
 
+		void calculateScale();
+
 	public:
 		Particle(int protonNumber, int nucleonNumber, Constants& constants);
+		Particle(const Particle& oldParticle);
 		~Particle();
 
 		void incrementFrame() override;
+		bool isMovable();
+		int getNuclearRadius();
+		int getAtomicRadius();
 
 		void processElectromagneticForces(glm::vec3 particlePosition, int particleCharge);
 	};

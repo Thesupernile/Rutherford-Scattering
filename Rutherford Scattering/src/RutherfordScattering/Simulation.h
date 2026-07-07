@@ -1,0 +1,27 @@
+#pragma once
+#include "Constants.h"
+#include "Particle.h"
+#include "AlphaSource.h"
+
+#include <vector>
+
+namespace RutherfordScattering {
+	static class Simulation {
+	private:
+		std::vector<AlphaSource> _alphaSources = std::vector<AlphaSource>();
+		std::vector<Particle> _particles = std::vector<Particle>();
+
+		void CreateFoil();
+		void ProcessElectrostaticForces();
+	public:
+		Constants constants;
+
+		Simulation();
+		~Simulation();
+
+
+		void ProcessSimulationFrame();
+		void SetNewConstants(Constants newConstants);
+		void DrawElements(glm::mat4& VP, Renderer& renderer);
+	};
+}

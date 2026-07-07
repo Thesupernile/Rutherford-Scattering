@@ -87,8 +87,7 @@ int main(void)
 
         Renderer renderer;
 
-        RutherfordScattering::Constants constants;
-        RutherfordScattering::Particle particle(4, 4, constants);
+        RutherfordScattering::Simulation sim = RutherfordScattering::Simulation();
 
         // Loop until the user closes the window
         while (!glfwWindowShouldClose(window))
@@ -105,7 +104,7 @@ int main(void)
             view = view * glm::scale(glm::mat4(1.0f), glm::vec3(cameraScaleFactor));
             glm::mat4 VP = proj * view;
 
-            particle.Draw(VP, renderer);
+            sim.DrawElements(VP, renderer);
 
             // ImGui window
             static float f = 0.0f;

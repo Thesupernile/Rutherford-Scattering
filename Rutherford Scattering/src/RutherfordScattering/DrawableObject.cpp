@@ -24,14 +24,13 @@ void RutherfordScattering::DrawableObject::SetTexture(std::string path) {
 
 RutherfordScattering::DrawableObject::~DrawableObject()
 {
-	delete[] pVertices;
-	delete[] pIndexes;
+
 }
 
-std::vector<unsigned int> RutherfordScattering::DrawableObject::ParseIndices(objectIndex* data) {
+std::vector<unsigned int> RutherfordScattering::DrawableObject::ParseIndices(std::vector<objectIndex> data) {
 	std::vector<unsigned int> parsedData;
 
-	for (int i = 0; i < numVerticesPerObject; i++) {
+	for (int i = 0; i < numVerticesPerObject-1; i++) {
 		parsedData.push_back(data[i].v1);
 		parsedData.push_back(data[i].v2);
 		parsedData.push_back(data[i].v3);
@@ -42,19 +41,19 @@ std::vector<unsigned int> RutherfordScattering::DrawableObject::ParseIndices(obj
 
 void RutherfordScattering::DrawableObject::SetPos(float x, float y, float z)
 {
-	position.x = x;
-	position.y = y;
-	position.z = z;
+	_position.x = x;
+	_position.y = y;
+	_position.z = z;
 }
 
-void RutherfordScattering::DrawableObject::Draw(glm::mat4 VPMatrix, Renderer& renderer)
+void RutherfordScattering::DrawableObject::Draw(glm::mat4& VPMatrix, Renderer& renderer)
 {
 	va.Bind();
 	shader.Bind();
 	texture.Bind();
 
-	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position);
-	modelMatrix = modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(scale));
+	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), _position);
+	modelMatrix = modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(_scale));
 	glm::mat4 MVP = VPMatrix * modelMatrix;
 
 	shader.SetUniform1i("u_Texture", 0);

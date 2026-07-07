@@ -24,18 +24,19 @@ namespace RutherfordScattering {
 
 	protected:
 		VertexBufferLayout layout;
-		glm::vec3 position = glm::vec3(0, 0, 0);
-		int scale = 300;
+		glm::vec3 _position = glm::vec3(0, 0, 0);
+		float _scale = 10;
 
 		struct objectVertex {
 			float x;
 			float y;
 			float u;
 			float v;
-		} *pVertices;
+		};
+		std::vector<objectVertex> objectVertices;
 
 		// One "index" represents one triangle
-		objectIndex *pIndexes;
+		std::vector<objectIndex> objectIndexes;
 
 		int numVerticesPerObject;
 
@@ -47,7 +48,7 @@ namespace RutherfordScattering {
 		void SetShader(std::string path);
 		void SetTexture(std::string path);
 
-		std::vector<unsigned int> ParseIndices(objectIndex* data);
+		std::vector<unsigned int> ParseIndices(std::vector<objectIndex> data);
 	public:
 		DrawableObject();
 		~DrawableObject();
@@ -55,6 +56,6 @@ namespace RutherfordScattering {
 		virtual void incrementFrame() = 0;
 
 		void SetPos(float x, float y, float z);
-		void Draw(glm::mat4 VPMatrix, Renderer& renderer);
+		void Draw(glm::mat4& VPMatrix, Renderer& renderer);
 	};
 }
