@@ -43,7 +43,7 @@ void RutherfordScattering::Particle::generateParticleIndexes()
 
 void RutherfordScattering::Particle::calculateScale()
 {
-    float nuclearRadius = _constants.hydrogenRadius;
+    float nuclearRadius = _constants.hydrogenRadius * pow(_nucleonNumber, 1.0/3.0);
 
     float atomicRadius = nuclearRadius * _constants.atomicRadiusMultiplier;
 
@@ -68,7 +68,7 @@ RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Co
 }
 
 RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
-    _constants(oldParticle._constants)
+    _protonNumber(oldParticle._protonNumber), _nucleonNumber(oldParticle._nucleonNumber), _constants(oldParticle._constants), DrawableObject()
 {
     layout.Push<float>(2);
     layout.Push<float>(2);
