@@ -10,5 +10,9 @@ namespace RutherfordScattering {
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
 		float simulationTimeFactor = 1e-3f;
+
+		// Foil Constants
+		int foilWidth = 1;
+		int foilLength = 10;
 	};
 }

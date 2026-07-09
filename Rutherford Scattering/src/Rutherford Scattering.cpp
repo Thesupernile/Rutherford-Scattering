@@ -62,7 +62,7 @@ int main(void)
         return -1;
     }
     {
-        glm::vec3 cameraPos = glm::vec3(-350, -350, 0);
+        glm::vec3 cameraPos = glm::vec3(0, 0, 0);
 
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
@@ -100,8 +100,8 @@ int main(void)
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            view = glm::translate(glm::mat4(1.0f), -cameraPos);
-            view = view * glm::scale(glm::mat4(1.0f), glm::vec3(cameraScaleFactor));
+            view = glm::scale(glm::mat4(1.0f), glm::vec3(cameraScaleFactor));
+            view = view * glm::translate(glm::mat4(1.0f), -cameraPos *cameraScaleFactor);
             glm::mat4 VP = proj * view;
 
             sim.DrawElements(VP, renderer);

@@ -84,6 +84,8 @@ RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
     SetShader(shaderFilePath);
     SetTexture(textureFilePath);
 
+    _position = oldParticle._position;
+    _velocity = oldParticle._velocity;
 }
 
 RutherfordScattering::Particle::~Particle()

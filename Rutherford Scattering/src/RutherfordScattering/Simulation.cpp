@@ -2,9 +2,12 @@
 
 void RutherfordScattering::Simulation::CreateFoil()
 {
-	_particles.emplace_back(Particle(40, 150, constants));
-	_particles.emplace_back(Particle(10, 20, constants));
-	_particles[0].SetPos(5, 10, 0);
+	for (unsigned int i = 0; i < constants.foilWidth; i++) {
+		for (unsigned int j = 0; j < constants.foilLength; j++) {
+			_particles.emplace_back(Particle(40, 150, constants));
+			_particles[i + j].SetPos(10 * i, 10 * j, 0);
+		}
+	}
 }
 
 void RutherfordScattering::Simulation::ProcessElectrostaticForces()
