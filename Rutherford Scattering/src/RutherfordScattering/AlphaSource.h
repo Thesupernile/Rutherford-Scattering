@@ -2,7 +2,21 @@
 #include "Particle.h"
 
 namespace RutherfordScattering {
-	class AlphaSource {
+	class AlphaSource : public DrawableObject {
+	private:
+		float _angle;			// Angle of orientation of the alpha source (0 degrees points right)
+		float _gapWidth;		// Width of the opening in the source (affets emission rate)
+		float _sourceSpread;	// The range of angles with which 
+		int _emissionRate;		// How many alpha particles the source emits per second
 
+		void generateObjectVertices();
+		void generateObjectIndicies();
+
+	public:
+		AlphaSource();
+		~AlphaSource();
+		AlphaSource(const AlphaSource& oldObject);
+
+		void incrementFrame() override;
 	};
 }

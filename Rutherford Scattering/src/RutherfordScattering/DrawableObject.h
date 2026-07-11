@@ -23,8 +23,11 @@ namespace RutherfordScattering {
 		Texture texture;
 
 	protected:
+		const float PI = 3.1415926;
+
 		VertexBufferLayout layout;
 		glm::vec3 _position = glm::vec3(0, 0, 0);
+		float _rotation = 0;
 		float _scale = 10;
 
 		struct objectVertex {
@@ -52,6 +55,7 @@ namespace RutherfordScattering {
 	public:
 		DrawableObject();
 		~DrawableObject();
+		DrawableObject(const DrawableObject& oldObject);
 
 		virtual void incrementFrame() = 0;
 

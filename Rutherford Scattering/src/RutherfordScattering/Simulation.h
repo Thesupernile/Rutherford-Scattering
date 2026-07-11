@@ -12,6 +12,7 @@ namespace RutherfordScattering {
 		std::vector<Particle> _particles = std::vector<Particle>();
 
 		void CreateFoil();
+		void CreateAlphaSources();
 		void ProcessElectrostaticForces();
 	public:
 		Constants constants;

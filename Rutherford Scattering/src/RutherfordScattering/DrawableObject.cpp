@@ -27,10 +27,24 @@ RutherfordScattering::DrawableObject::~DrawableObject()
 
 }
 
+RutherfordScattering::DrawableObject::DrawableObject(const DrawableObject& oldObject)
+{
+	shaderFilePath = oldObject.shaderFilePath;
+	textureFilePath = oldObject.textureFilePath;
+
+	layout = oldObject.layout;
+	numVerticesPerObject = oldObject.numVerticesPerObject;
+	objectIndexes = oldObject.objectIndexes;
+	objectVertices = oldObject.objectVertices;
+
+	_scale = oldObject._scale;
+	_position = oldObject._position;
+}
+
 std::vector<unsigned int> RutherfordScattering::DrawableObject::ParseIndices(std::vector<objectIndex> data) {
 	std::vector<unsigned int> parsedData;
 
-	for (int i = 0; i < numVerticesPerObject-1; i++) {
+	for (int i = 0; i < data.size(); i++) {
 		parsedData.push_back(data[i].v1);
 		parsedData.push_back(data[i].v2);
 		parsedData.push_back(data[i].v3);
@@ -51,9 +65,10 @@ void RutherfordScattering::DrawableObject::Draw(glm::mat4& VPMatrix, Renderer& r
 	va.Bind();
 	shader.Bind();
 	texture.Bind();
-
-	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), _position);
-	modelMatrix = modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(_scale));
+	
+	glm::mat4 modelMatrix = glm::rotate(glm::mat4(1.0f), _rotation, glm::vec3({ 0,0,1 })); // 0, 0, 1 as axis of rotation as rotating about the z axis (hence a normal rotation in 2d)
+	modelMatrix = glm::translate(modelMatrix, _position);
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(_scale));
 	glm::mat4 MVP = VPMatrix * modelMatrix;
 
 	shader.SetUniform1i("u_Texture", 0);

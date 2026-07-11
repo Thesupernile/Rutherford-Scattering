@@ -10,6 +10,12 @@ void RutherfordScattering::Simulation::CreateFoil()
 	}
 }
 
+void RutherfordScattering::Simulation::CreateAlphaSources()
+{
+	_alphaSources.emplace_back(AlphaSource());
+	_alphaSources[0].SetPos(0, 350, 0);
+}
+
 void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 {
 
@@ -22,6 +28,7 @@ RutherfordScattering::Simulation::Simulation()
 	constants.nucleonMass = 1.67e-27;
 	constants.atomicRadiusMultiplier = 1e5;
 	CreateFoil();
+	CreateAlphaSources();
 }
 
 RutherfordScattering::Simulation::~Simulation()
@@ -38,11 +45,15 @@ void RutherfordScattering::Simulation::SetNewConstants(Constants newConstants)
 {
 	constants = newConstants;
 	CreateFoil();
+	CreateAlphaSources();
 }
 
 void RutherfordScattering::Simulation::DrawElements(glm::mat4& VP, Renderer& renderer)
 {
 	for (auto& particle : _particles) {
 		particle.Draw(VP, renderer);
+	}
+	for (auto& alphasource : _alphaSources) {
+		alphasource.Draw(VP, renderer);
 	}
 }

@@ -68,24 +68,15 @@ RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Co
 }
 
 RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
-    _protonNumber(oldParticle._protonNumber), _nucleonNumber(oldParticle._nucleonNumber), _constants(oldParticle._constants), DrawableObject()
+    DrawableObject(oldParticle), _protonNumber(oldParticle._protonNumber), _nucleonNumber(oldParticle._nucleonNumber), _constants(oldParticle._constants)
 {
-    layout.Push<float>(2);
-    layout.Push<float>(2);
-
-    numVerticesPerObject = 129;
-    calculateScale();
-
-    generateParticleVertexes();
-    generateParticleIndexes();
+    _velocity = oldParticle._velocity;
+    _isMovable = oldParticle._isMovable;
 
     SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
     SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject - 1) * 3);
     SetShader(shaderFilePath);
     SetTexture(textureFilePath);
-
-    _position = oldParticle._position;
-    _velocity = oldParticle._velocity;
 }
 
 RutherfordScattering::Particle::~Particle()
