@@ -56,6 +56,10 @@ RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 	_gapWidth = oldObject._gapWidth;
 	_sourceSpread = oldObject._gapWidth;
 
+	numVerticesPerObject = oldObject.numVerticesPerObject;
+	objectIndexes = oldObject.objectIndexes;
+	objectVertices = oldObject.objectVertices;
+
 	SetVertexBufferData(objectVertices.data(), objectVertices.size() * sizeof(objectVertex));
 	SetIndexBufferData(ParseIndices(objectIndexes).data(), objectIndexes.size() * 3);
 	SetShader(shaderFilePath);

@@ -2,7 +2,6 @@
 
 RutherfordScattering::DrawableObject::DrawableObject()
 {
-	numVerticesPerObject = 0;
 }
 
 void RutherfordScattering::DrawableObject::SetVertexBufferData(const void* data, unsigned int size) {
@@ -33,9 +32,6 @@ RutherfordScattering::DrawableObject::DrawableObject(const DrawableObject& oldOb
 	textureFilePath = oldObject.textureFilePath;
 
 	layout = oldObject.layout;
-	numVerticesPerObject = oldObject.numVerticesPerObject;
-	objectIndexes = oldObject.objectIndexes;
-	objectVertices = oldObject.objectVertices;
 
 	_scale = oldObject._scale;
 	_position = oldObject._position;

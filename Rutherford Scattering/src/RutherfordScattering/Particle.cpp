@@ -1,6 +1,9 @@
 #include "Particle.h"
 #include <iostream>
 
+std::vector<RutherfordScattering::Particle::objectVertex> RutherfordScattering::Particle::objectVertices;
+std::vector<objectIndex> RutherfordScattering::Particle::objectIndexes;
+
 void RutherfordScattering::Particle::generateParticleVertexes()
 {
     // Plus one is for the centre and the two is for the two coordinates
@@ -55,11 +58,7 @@ RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Co
     layout.Push<float>(2);
     layout.Push<float>(2);
 
-    numVerticesPerObject = 129;
     calculateScale();
-
-    generateParticleVertexes();
-    generateParticleIndexes();
 
     SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
     SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject-1) * 3);
@@ -72,6 +71,9 @@ RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
 {
     _velocity = oldParticle._velocity;
     _isMovable = oldParticle._isMovable;
+
+    objectIndexes = oldParticle.objectIndexes;
+    objectVertices = oldParticle.objectVertices;
 
     SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
     SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject - 1) * 3);

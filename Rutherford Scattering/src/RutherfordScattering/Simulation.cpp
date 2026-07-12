@@ -16,6 +16,18 @@ void RutherfordScattering::Simulation::CreateAlphaSources()
 	_alphaSources[0].SetPos(0, 350, 0);
 }
 
+void RutherfordScattering::Simulation::ProcessAlphaEmissions()
+{
+
+}
+
+void RutherfordScattering::Simulation::ProcessParticleMovement()
+{
+	for (auto& particle : _particles) {
+		particle.incrementFrame();
+	}
+}
+
 void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 {
 
@@ -27,6 +39,10 @@ RutherfordScattering::Simulation::Simulation()
 	constants.hydrogenRadius = 1.2e-15;
 	constants.nucleonMass = 1.67e-27;
 	constants.atomicRadiusMultiplier = 1e5;
+
+	Particle::generateParticleVertexes();
+	Particle::generateParticleIndexes();
+
 	CreateFoil();
 	CreateAlphaSources();
 }
@@ -38,7 +54,9 @@ RutherfordScattering::Simulation::~Simulation()
 
 void RutherfordScattering::Simulation::ProcessSimulationFrame()
 {
-
+	ProcessAlphaEmissions();
+	ProcessParticleMovement();
+	ProcessElectrostaticForces();
 }
 
 void RutherfordScattering::Simulation::SetNewConstants(Constants newConstants)

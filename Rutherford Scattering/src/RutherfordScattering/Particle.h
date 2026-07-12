@@ -18,10 +18,11 @@ namespace RutherfordScattering {
 		bool _isMovable;
 		Constants& _constants;
 
-		glm::vec3 _velocity = glm::vec3(0, 0, 0);
+		static const int numVerticesPerObject = 129;
+		static std::vector<objectVertex> objectVertices;
+		static std::vector<objectIndex> objectIndexes;
 
-		void generateParticleVertexes();
-		void generateParticleIndexes();
+		glm::vec3 _velocity = glm::vec3(0, 0, 0);
 
 		void calculateScale();
 
@@ -29,6 +30,9 @@ namespace RutherfordScattering {
 		Particle(int protonNumber, int nucleonNumber, Constants& constants);
 		Particle(const Particle& oldParticle);
 		~Particle();
+
+		static void generateParticleVertexes();
+		static void generateParticleIndexes();
 
 		void incrementFrame() override;
 		bool isMovable();

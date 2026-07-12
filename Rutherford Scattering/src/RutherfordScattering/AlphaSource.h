@@ -9,9 +9,13 @@ namespace RutherfordScattering {
 		float _sourceSpread;	// The range of angles with which 
 		int _emissionRate;		// How many alpha particles the source emits per second
 
+		std::vector<objectVertex> objectVertices;
+		std::vector<objectIndex> objectIndexes;
+
+		int numVerticesPerObject;
+
 		void generateObjectVertices();
 		void generateObjectIndicies();
-
 	public:
 		AlphaSource();
 		~AlphaSource();

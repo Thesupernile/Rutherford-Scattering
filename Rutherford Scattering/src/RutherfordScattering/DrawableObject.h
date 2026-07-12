@@ -36,12 +36,10 @@ namespace RutherfordScattering {
 			float u;
 			float v;
 		};
-		std::vector<objectVertex> objectVertices;
+		//std::vector<objectVertex>* pObjectVertices;
 
 		// One "index" represents one triangle
-		std::vector<objectIndex> objectIndexes;
-
-		int numVerticesPerObject;
+		//std::vector<objectIndex>* pObjectIndexes;
 
 		std::string shaderFilePath = "res/shaders/particle.shader";
 		std::string textureFilePath = "res/textures/emptyTexture.png";

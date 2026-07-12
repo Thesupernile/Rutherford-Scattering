@@ -13,6 +13,9 @@ namespace RutherfordScattering {
 
 		void CreateFoil();
 		void CreateAlphaSources();
+
+		void ProcessAlphaEmissions();
+		void ProcessParticleMovement();
 		void ProcessElectrostaticForces();
 	public:
 		Constants constants;
