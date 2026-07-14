@@ -45,6 +45,11 @@ RutherfordScattering::Simulation::Simulation()
 
 	CreateFoil();
 	CreateAlphaSources();
+
+	// Temp Test Code
+	_particles.emplace_back(2, 4, constants);
+	_particles[_particles.size()-1].SetPos(0, 350, 0);
+	_particles[_particles.size() - 1].setVelocity(glm::vec3({ 1, 0, 0 }));
 }
 
 RutherfordScattering::Simulation::~Simulation()

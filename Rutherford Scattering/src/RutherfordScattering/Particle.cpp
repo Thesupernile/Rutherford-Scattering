@@ -87,6 +87,7 @@ RutherfordScattering::Particle::~Particle()
 }
 
 void RutherfordScattering::Particle::incrementFrame() {
+    _position += _velocity;
 
 }
 
@@ -103,4 +104,14 @@ int RutherfordScattering::Particle::getNuclearRadius()
 int RutherfordScattering::Particle::getAtomicRadius()
 {
     return 0;
+}
+
+void RutherfordScattering::Particle::setVelocity(glm::vec3 newVelocity)
+{
+    _velocity = newVelocity;
+}
+
+glm::vec3 RutherfordScattering::Particle::getVelocity()
+{
+    return _velocity;
 }

@@ -38,6 +38,8 @@ namespace RutherfordScattering {
 		bool isMovable();
 		int getNuclearRadius();
 		int getAtomicRadius();
+		void setVelocity(glm::vec3 newVelocity);
+		glm::vec3 getVelocity();
 
 		void processElectromagneticForces(glm::vec3 particlePosition, int particleCharge);
 	};

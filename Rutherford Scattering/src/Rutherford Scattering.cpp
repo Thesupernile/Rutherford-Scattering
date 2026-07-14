@@ -104,6 +104,7 @@ int main(void)
             view = view * glm::translate(glm::mat4(1.0f), -cameraPos *cameraScaleFactor);
             glm::mat4 VP = proj * view;
 
+            sim.ProcessSimulationFrame();
             sim.DrawElements(VP, renderer);
 
             // ImGui window
