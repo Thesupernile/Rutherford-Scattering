@@ -22,5 +22,11 @@ namespace RutherfordScattering {
 		AlphaSource(const AlphaSource& oldObject);
 
 		void incrementFrame() override;
+
+		void setEmissionRate(int newEmissionRate);
+		int getEmissionRate();
+
+		void setAngle(float newAngle);
+		int getAngle();
 	};
 }

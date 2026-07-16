@@ -6,6 +6,12 @@ namespace RutherfordScattering {
 		float hydrogenRadius;
 		float nucleonMass;
 		float atomicRadiusMultiplier;
+		float protonCharge = 1.6e-19;
+
+		// Alpha Particle Constants
+		int numProtonsPerAlphaSource = 2;
+		int numNeutronsPerAlphaSource = 2;
+		float alphaParticleInitialSpeed = 5;
 
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;

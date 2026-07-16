@@ -49,18 +49,21 @@ std::vector<unsigned int> RutherfordScattering::DrawableObject::ParseIndices(std
 	return parsedData;
 }
 
-void RutherfordScattering::DrawableObject::SetPos(float x, float y, float z)
+void RutherfordScattering::DrawableObject::SetPos(glm::vec3 newPosition)
 {
-	_position.x = x;
-	_position.y = y;
-	_position.z = z;
+	_position = newPosition;
+}
+
+glm::vec3 RutherfordScattering::DrawableObject::GetPos()
+{
+	return _position;
 }
 
 void RutherfordScattering::DrawableObject::Draw(glm::mat4& VPMatrix, Renderer& renderer)
 {
 	va.Bind();
 	shader.Bind();
-	texture.Bind();
+	//texture.Bind();
 	
 	glm::mat4 modelMatrix = glm::rotate(glm::mat4(1.0f), _rotation, glm::vec3({ 0,0,1 })); // 0, 0, 1 as axis of rotation as rotating about the z axis (hence a normal rotation in 2d)
 	modelMatrix = glm::translate(modelMatrix, _position);

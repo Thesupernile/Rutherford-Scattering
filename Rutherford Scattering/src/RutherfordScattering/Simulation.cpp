@@ -5,7 +5,7 @@ void RutherfordScattering::Simulation::CreateFoil()
 	for (unsigned int i = 0; i < constants.foilWidth; i++) {
 		for (unsigned int j = 0; j < constants.foilLength; j++) {
 			_particles.emplace_back(Particle(40, 150, constants));
-			_particles[i*constants.foilLength + j].SetPos(10 * i + 600, 10 * j, 0);
+			_particles[i * constants.foilLength + j].SetPos(glm::vec3({ 10 * i + 600, 10 * j, 0 }));
 		}
 	}
 }
@@ -13,12 +13,28 @@ void RutherfordScattering::Simulation::CreateFoil()
 void RutherfordScattering::Simulation::CreateAlphaSources()
 {
 	_alphaSources.emplace_back(AlphaSource());
-	_alphaSources[0].SetPos(0, 350, 0);
+	_alphaSources[0].SetPos(glm::vec3({ 0, 350, 0 }));
 }
 
 void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 {
+	const int numProtons = constants.numProtonsPerAlphaSource;
+	const int numNucleons = constants.numNeutronsPerAlphaSource + numProtons;
+	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed;
 
+	for (auto& alphasource : _alphaSources) {
+		for (int i = 0; i < alphasource.getEmissionRate(); i++) {
+
+			unsigned int endOfList = _particles.size();
+			_particles.emplace_back(numProtons, numNucleons, constants);
+
+			float xVelocity = cos(alphasource.getAngle()) * alphaParticleSpeed;
+			float yVelocity = sin(alphasource.getAngle()) * alphaParticleSpeed;
+
+			_particles[endOfList].SetPos(alphasource.GetPos());
+			_particles[endOfList].setVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
+		}
+	}
 }
 
 void RutherfordScattering::Simulation::ProcessParticleMovement()
@@ -48,7 +64,7 @@ RutherfordScattering::Simulation::Simulation()
 
 	// Temp Test Code
 	_particles.emplace_back(2, 4, constants);
-	_particles[_particles.size()-1].SetPos(0, 350, 0);
+	_particles[_particles.size() - 1].SetPos(glm::vec3({ 0, 350, 0 }));
 	_particles[_particles.size() - 1].setVelocity(glm::vec3({ 1, 0, 0 }));
 }
 

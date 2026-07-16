@@ -26,7 +26,7 @@ RutherfordScattering::AlphaSource::AlphaSource()
 {
 	// Default values for members are semi random
 	_angle =		0;	
-	_emissionRate = 3;	
+	_emissionRate = 1;	
 	_gapWidth =		2;	
 	_sourceSpread =	5;	
 	_scale =	   40;
@@ -69,4 +69,24 @@ RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 void RutherfordScattering::AlphaSource::incrementFrame()
 {
 
+}
+
+void RutherfordScattering::AlphaSource::setEmissionRate(int newEmissionRate)
+{
+	_emissionRate = newEmissionRate;
+}
+
+int RutherfordScattering::AlphaSource::getEmissionRate()
+{
+	return _emissionRate;
+}
+
+void RutherfordScattering::AlphaSource::setAngle(float newAngle)
+{
+	_angle = newAngle;
+}
+
+int RutherfordScattering::AlphaSource::getAngle()
+{
+	return _angle;
 }

@@ -63,7 +63,7 @@ RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Co
     SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
     SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject-1) * 3);
     SetShader(shaderFilePath);
-    SetTexture(textureFilePath);
+    //SetTexture(textureFilePath);
 }
 
 RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
@@ -78,7 +78,7 @@ RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
     SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
     SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject - 1) * 3);
     SetShader(shaderFilePath);
-    SetTexture(textureFilePath);
+    //SetTexture(textureFilePath);
 }
 
 RutherfordScattering::Particle::~Particle()
