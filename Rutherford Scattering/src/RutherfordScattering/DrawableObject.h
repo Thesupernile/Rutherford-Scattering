@@ -59,6 +59,7 @@ namespace RutherfordScattering {
 
 		void SetPos(glm::vec3 newPosition);
 		glm::vec3 GetPos();
+		float GetScale();
 		void Draw(glm::mat4& VPMatrix, Renderer& renderer);
 	};
 }

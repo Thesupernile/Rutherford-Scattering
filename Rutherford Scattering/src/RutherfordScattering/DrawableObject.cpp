@@ -59,6 +59,10 @@ glm::vec3 RutherfordScattering::DrawableObject::GetPos()
 	return _position;
 }
 
+float RutherfordScattering::DrawableObject::GetScale() {
+	return _scale;
+}
+
 void RutherfordScattering::DrawableObject::Draw(glm::mat4& VPMatrix, Renderer& renderer)
 {
 	va.Bind();

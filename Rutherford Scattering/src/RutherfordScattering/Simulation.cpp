@@ -28,10 +28,19 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 			unsigned int endOfList = _particles.size();
 			_particles.emplace_back(numProtons, numNucleons, constants);
 
-			float xVelocity = cos(alphasource.getAngle()) * alphaParticleSpeed;
-			float yVelocity = sin(alphasource.getAngle()) * alphaParticleSpeed;
+			// Gets a random value between +- alphaSourceSpread to 2 decimal places (in radians)
+			int preAdjustedOffsetAngle = rand() % (int)(100 * alphasource.getSourceSpread() * 2);
+			float offsetAngle = preAdjustedOffsetAngle / 100.0 - alphasource.getSourceSpread();
+			float emissionAngle = alphasource.getAngle() + offsetAngle;
 
-			_particles[endOfList].SetPos(alphasource.GetPos());
+			float xVelocity = cos(emissionAngle) * alphaParticleSpeed;
+			float yVelocity = sin(emissionAngle) * alphaParticleSpeed;
+
+			// Offset to position the spawned alpha particle at the front of the source
+			float offsetX = alphasource.GetScale() * (3.0/4.0);
+			float offsetY = alphasource.GetScale() / 2;
+
+			_particles[endOfList].SetPos(alphasource.GetPos() + glm::vec3({offsetX, offsetY, 0}));
 			_particles[endOfList].setVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
 		}
 	}
@@ -61,11 +70,6 @@ RutherfordScattering::Simulation::Simulation()
 
 	CreateFoil();
 	CreateAlphaSources();
-
-	// Temp Test Code
-	_particles.emplace_back(2, 4, constants);
-	_particles[_particles.size() - 1].SetPos(glm::vec3({ 0, 350, 0 }));
-	_particles[_particles.size() - 1].setVelocity(glm::vec3({ 1, 0, 0 }));
 }
 
 RutherfordScattering::Simulation::~Simulation()

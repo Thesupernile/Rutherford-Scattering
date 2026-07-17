@@ -28,8 +28,8 @@ RutherfordScattering::AlphaSource::AlphaSource()
 	_angle =		0;	
 	_emissionRate = 1;	
 	_gapWidth =		2;	
-	_sourceSpread =	5;	
-	_scale =	   40;
+	_sourceSpread =	0.3;	
+	_scale =		40;
 
 	layout.Push<float>(2);
 	layout.Push<float>(2);
@@ -54,7 +54,7 @@ RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 	_angle = oldObject._angle;
 	_emissionRate = oldObject._emissionRate;
 	_gapWidth = oldObject._gapWidth;
-	_sourceSpread = oldObject._gapWidth;
+	_sourceSpread = oldObject._sourceSpread;
 
 	numVerticesPerObject = oldObject.numVerticesPerObject;
 	objectIndexes = oldObject.objectIndexes;
