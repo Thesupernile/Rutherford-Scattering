@@ -16,6 +16,8 @@ namespace RutherfordScattering {
 		int _protonNumber;
 		int _nucleonNumber;
 		bool _isMovable;
+		bool _isPersistent;
+		int _timeToLive;
 		Constants& _constants;
 
 		static const int numVerticesPerObject = 129;
@@ -35,9 +37,16 @@ namespace RutherfordScattering {
 		static void generateParticleIndexes();
 
 		void incrementFrame() override;
+
+		bool isPersistent() { return _isPersistent; }
+		void setPersistent(bool isPersist) { _isPersistent = isPersist; }
 		bool isMovable();
+
 		int getNuclearRadius();
 		int getAtomicRadius();
+		int getTimeToLive() { return _timeToLive; }
+		void setTimeToLive(int newTTL) { _timeToLive = newTTL; }
+
 		void setVelocity(glm::vec3 newVelocity);
 		glm::vec3 getVelocity();
 

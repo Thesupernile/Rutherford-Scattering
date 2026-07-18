@@ -17,6 +17,8 @@ namespace RutherfordScattering {
 		float simulationScaleFactor = 7e9f;
 		float simulationTimeFactor = 1e-3f;
 
+		int defaultParticleTTL = 300;
+
 		// Foil Constants
 		int foilWidth = 2;
 		int foilLength = 75;

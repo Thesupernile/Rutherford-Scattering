@@ -5,7 +5,7 @@ void RutherfordScattering::Simulation::CreateFoil()
 	for (unsigned int i = 0; i < constants.foilWidth; i++) {
 		for (unsigned int j = 0; j < constants.foilLength; j++) {
 			_particles.emplace_back(Particle(40, 150, constants));
-			_particles[i * constants.foilLength + j].SetPos(glm::vec3({ 10 * i + 600, 10 * j, 0 }));
+			_particles.back().SetPos(glm::vec3({10 * i + 600, 10 * j, 0}));
 		}
 	}
 }
@@ -40,16 +40,33 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 			float offsetX = alphasource.GetScale() * (3.0/4.0);
 			float offsetY = alphasource.GetScale() / 2;
 
-			_particles[endOfList].SetPos(alphasource.GetPos() + glm::vec3({offsetX, offsetY, 0}));
-			_particles[endOfList].setVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
+			_particles.back().SetPos(alphasource.GetPos() + glm::vec3({offsetX, offsetY, 0}));
+			_particles.back().setVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
+			_particles.back().setTimeToLive(constants.defaultParticleTTL);
+			_particles.back().setPersistent(false);
 		}
 	}
 }
 
 void RutherfordScattering::Simulation::ProcessParticleMovement()
 {
+	std::vector<unsigned int> particlesToCull;
+	unsigned int i = 0;
+
 	for (auto& particle : _particles) {
-		particle.incrementFrame();
+		if (!particle.isPersistent() && particle.getTimeToLive() <= 0) {
+			particlesToCull.push_back(i);
+		}
+		else {
+			particle.incrementFrame();
+		}
+		i++;
+	}
+
+	for (unsigned int index : particlesToCull) {
+		std::list<Particle>::iterator iter = _particles.begin();
+		std::advance(iter, index);
+		_particles.erase(iter);
 	}
 }
 

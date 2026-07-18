@@ -57,6 +57,7 @@ RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Co
 : _protonNumber(protonNumber), _nucleonNumber(nucleonNumber), _constants(constants), DrawableObject() {
     layout.Push<float>(2);
     layout.Push<float>(2);
+    _isPersistent = true;
 
     calculateScale();
 
@@ -71,6 +72,9 @@ RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
 {
     _velocity = oldParticle._velocity;
     _isMovable = oldParticle._isMovable;
+    _isPersistent = oldParticle._isPersistent;
+    _timeToLive = oldParticle._timeToLive;
+    _constants = oldParticle._constants;
 
     objectIndexes = oldParticle.objectIndexes;
     objectVertices = oldParticle.objectVertices;
@@ -88,7 +92,7 @@ RutherfordScattering::Particle::~Particle()
 
 void RutherfordScattering::Particle::incrementFrame() {
     _position += _velocity;
-
+    _timeToLive--;
 }
 
 bool RutherfordScattering::Particle::isMovable()

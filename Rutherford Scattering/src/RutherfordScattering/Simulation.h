@@ -9,7 +9,7 @@ namespace RutherfordScattering {
 	static class Simulation {
 	private:
 		std::vector<AlphaSource> _alphaSources = std::vector<AlphaSource>();
-		std::vector<Particle> _particles = std::vector<Particle>();
+		std::list<Particle> _particles = std::list<Particle>();
 
 		void CreateFoil();
 		void CreateAlphaSources();
