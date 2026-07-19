@@ -20,7 +20,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 {
 	const int numProtons = constants.numProtonsPerAlphaSource;
 	const int numNucleons = constants.numNeutronsPerAlphaSource + numProtons;
-	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed;
+	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed * constants.simulationTimeFactor;
 
 	for (auto& alphasource : _alphaSources) {
 		for (int i = 0; i < alphasource.getEmissionRate(); i++) {

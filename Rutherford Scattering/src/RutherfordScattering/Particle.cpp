@@ -53,6 +53,29 @@ void RutherfordScattering::Particle::calculateScale()
     _scale = _constants.simulationScaleFactor * atomicRadius;
 }
 
+void RutherfordScattering::Particle::calculateCharge()
+{
+    _charge = _constants.protonCharge * _protonNumber;
+}
+
+void RutherfordScattering::Particle::determineColour()
+{
+    calculateCharge();
+    if (!_isMovable) {
+        _colour = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+        return;
+    }
+    else if (_charge > 0) {
+        _colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    }
+    else if (_charge < 0) {
+        _colour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+    }
+    else {
+        _colour = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+    }
+}
+
 RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Constants& constants)
 : _protonNumber(protonNumber), _nucleonNumber(nucleonNumber), _constants(constants), DrawableObject() {
     layout.Push<float>(2);
@@ -60,6 +83,8 @@ RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Co
     _isPersistent = true;
 
     calculateScale();
+    calculateCharge();
+    determineColour();
 
     SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
     SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject-1) * 3);
@@ -74,6 +99,7 @@ RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
     _isMovable = oldParticle._isMovable;
     _isPersistent = oldParticle._isPersistent;
     _timeToLive = oldParticle._timeToLive;
+    _charge = oldParticle._charge;
     _constants = oldParticle._constants;
 
     objectIndexes = oldParticle.objectIndexes;
@@ -93,6 +119,12 @@ RutherfordScattering::Particle::~Particle()
 void RutherfordScattering::Particle::incrementFrame() {
     _position += _velocity;
     _timeToLive--;
+}
+
+void RutherfordScattering::Particle::setIsMovable(bool newValue)
+{
+    _isMovable = newValue;
+    determineColour();
 }
 
 bool RutherfordScattering::Particle::isMovable()

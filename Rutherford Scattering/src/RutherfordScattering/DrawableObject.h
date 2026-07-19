@@ -27,6 +27,7 @@ namespace RutherfordScattering {
 
 		VertexBufferLayout layout;
 		glm::vec3 _position = glm::vec3(0, 0, 0);
+		glm::vec4 _colour = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
 		float _rotation = 0;
 		float _scale = 10;
 

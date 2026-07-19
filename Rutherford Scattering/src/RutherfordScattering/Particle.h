@@ -15,6 +15,7 @@ namespace RutherfordScattering {
 
 		int _protonNumber;
 		int _nucleonNumber;
+		float _charge;
 		bool _isMovable;
 		bool _isPersistent;
 		int _timeToLive;
@@ -27,6 +28,8 @@ namespace RutherfordScattering {
 		glm::vec3 _velocity = glm::vec3(0, 0, 0);
 
 		void calculateScale();
+		void calculateCharge();
+		void determineColour();
 
 	public:
 		Particle(int protonNumber, int nucleonNumber, Constants& constants);
@@ -40,6 +43,7 @@ namespace RutherfordScattering {
 
 		bool isPersistent() { return _isPersistent; }
 		void setPersistent(bool isPersist) { _isPersistent = isPersist; }
+		void setIsMovable(bool newValue);
 		bool isMovable();
 
 		int getNuclearRadius();
@@ -49,6 +53,8 @@ namespace RutherfordScattering {
 
 		void setVelocity(glm::vec3 newVelocity);
 		glm::vec3 getVelocity();
+
+		float getCharge() { return _charge; }
 
 		void processElectromagneticForces(glm::vec3 particlePosition, int particleCharge);
 	};

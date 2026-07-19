@@ -75,7 +75,7 @@ void RutherfordScattering::DrawableObject::Draw(glm::mat4& VPMatrix, Renderer& r
 	glm::mat4 MVP = VPMatrix * modelMatrix;
 
 	shader.SetUniform1i("u_Texture", 0);
-	shader.SetUniform4f("u_Colour", 1.0f, 1.0f, 0.0f, 1.0f);
+	shader.SetUniform4f("u_Colour", _colour.x, _colour.y, _colour.z, _colour.w);
 	shader.SetUniformMat4f("u_MVP", MVP);
 
 	renderer.Draw(va, ib, shader);

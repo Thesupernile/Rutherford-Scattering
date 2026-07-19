@@ -11,13 +11,13 @@ namespace RutherfordScattering {
 		// Alpha Particle Constants
 		int numProtonsPerAlphaSource = 2;
 		int numNeutronsPerAlphaSource = 2;
-		float alphaParticleInitialSpeed = 5;
+		float alphaParticleInitialSpeed = 1.5e7f;
 
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
-		float simulationTimeFactor = 1e-3f;
+		float simulationTimeFactor = 3e-7f;
 
-		int defaultParticleTTL = 300;
+		int defaultParticleTTL = 400;
 
 		// Foil Constants
 		int foilWidth = 2;
