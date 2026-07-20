@@ -14,21 +14,21 @@ namespace RutherfordScattering {
 
 		int numVerticesPerObject;
 
-		void generateObjectVertices();
-		void generateObjectIndicies();
+		void GenerateObjectVertices();
+		void GenerateObjectIndicies();
 	public:
 		AlphaSource();
 		~AlphaSource();
 		AlphaSource(const AlphaSource& oldObject);
 
-		void incrementFrame() override;
+		void IncrementFrame() override;
 
-		void setEmissionRate(int newEmissionRate);
-		int getEmissionRate();
+		void SetEmissionRate(int newEmissionRate);
+		int GetEmissionRate();
 
-		void setAngle(float newAngle);
-		int getAngle();
+		void SetAngle(float newAngle);
+		int GetAngle();
 
-		float getSourceSpread() { return _sourceSpread; }
+		float GetSourceSpread() { return _sourceSpread; }
 	};
 }

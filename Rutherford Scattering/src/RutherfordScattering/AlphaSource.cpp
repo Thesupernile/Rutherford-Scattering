@@ -1,6 +1,6 @@
 #include "AlphaSource.h"
 
-void RutherfordScattering::AlphaSource::generateObjectVertices()
+void RutherfordScattering::AlphaSource::GenerateObjectVertices()
 {
 	// Adds the coordinates for the alpha source's vertices
 	objectVertices.emplace_back(objectVertex({ 0.0, 0.0, 0.0, 0.0 }));
@@ -13,7 +13,7 @@ void RutherfordScattering::AlphaSource::generateObjectVertices()
 	objectVertices.emplace_back(objectVertex({ 0.9, 0.7, 0.9, 0.7 }));
 }
 
-void RutherfordScattering::AlphaSource::generateObjectIndicies()
+void RutherfordScattering::AlphaSource::GenerateObjectIndicies()
 {
 	// Adds the indexes for the alpha source's vertices vertices
 	objectIndexes.emplace_back(objectIndex({ 0, 1, 2 }));
@@ -35,8 +35,8 @@ RutherfordScattering::AlphaSource::AlphaSource()
 	layout.Push<float>(2);
 
 	numVerticesPerObject = 4;
-	generateObjectVertices();
-	generateObjectIndicies();
+	GenerateObjectVertices();
+	GenerateObjectIndicies();
 
 	SetVertexBufferData(objectVertices.data(), objectVertices.size() * sizeof(objectVertex));
 	SetIndexBufferData(ParseIndices(objectIndexes).data(), objectIndexes.size() * 3);
@@ -66,27 +66,27 @@ RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 	SetTexture(textureFilePath);
 }
 
-void RutherfordScattering::AlphaSource::incrementFrame()
+void RutherfordScattering::AlphaSource::IncrementFrame()
 {
 
 }
 
-void RutherfordScattering::AlphaSource::setEmissionRate(int newEmissionRate)
+void RutherfordScattering::AlphaSource::SetEmissionRate(int newEmissionRate)
 {
 	_emissionRate = newEmissionRate;
 }
 
-int RutherfordScattering::AlphaSource::getEmissionRate()
+int RutherfordScattering::AlphaSource::GetEmissionRate()
 {
 	return _emissionRate;
 }
 
-void RutherfordScattering::AlphaSource::setAngle(float newAngle)
+void RutherfordScattering::AlphaSource::SetAngle(float newAngle)
 {
 	_angle = newAngle;
 }
 
-int RutherfordScattering::AlphaSource::getAngle()
+int RutherfordScattering::AlphaSource::GetAngle()
 {
 	return _angle;
 }

@@ -27,36 +27,36 @@ namespace RutherfordScattering {
 
 		glm::vec3 _velocity = glm::vec3(0, 0, 0);
 
-		void calculateScale();
-		void calculateCharge();
-		void determineColour();
+		void CalculateScale();
+		void CalculateCharge();
+		void DetermineColour();
 
 	public:
 		Particle(int protonNumber, int nucleonNumber, Constants& constants);
 		Particle(const Particle& oldParticle);
 		~Particle();
 
-		static void generateParticleVertexes();
-		static void generateParticleIndexes();
+		static void GenerateParticleVertexes();
+		static void GenerateParticleIndexes();
 
-		void incrementFrame() override;
+		void IncrementFrame() override;
 
-		bool isPersistent() { return _isPersistent; }
-		void setPersistent(bool isPersist) { _isPersistent = isPersist; }
-		void setIsMovable(bool newValue);
-		bool isMovable();
+		bool IsPersistent() { return _isPersistent; }
+		void SetPersistent(bool isPersist) { _isPersistent = isPersist; }
+		void SetIsMovable(bool newValue);
+		bool IsMovable();
 
-		int getNuclearRadius();
-		int getAtomicRadius();
-		int getTimeToLive() { return _timeToLive; }
-		void setTimeToLive(int newTTL) { _timeToLive = newTTL; }
+		int GetNuclearRadius();
+		int GetAtomicRadius();
+		int GetTimeToLive() { return _timeToLive; }
+		void SetTimeToLive(int newTTL) { _timeToLive = newTTL; }
 
-		void setVelocity(glm::vec3 newVelocity);
-		glm::vec3 getVelocity();
+		void SetVelocity(glm::vec3 newVelocity);
+		glm::vec3 GetVelocity();
 
-		float getCharge() { return _charge; }
+		float GetCharge() { return _charge; }
 
-		void processElectromagneticForces(glm::vec3 particlePosition, int particleCharge);
+		void ProcessElectromagneticForces(glm::vec3 particlePosition, int particleCharge);
 	};
 
 }

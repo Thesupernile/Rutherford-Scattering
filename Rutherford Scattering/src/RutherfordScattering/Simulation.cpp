@@ -23,15 +23,15 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed * constants.simulationTimeFactor;
 
 	for (auto& alphasource : _alphaSources) {
-		for (int i = 0; i < alphasource.getEmissionRate(); i++) {
+		for (int i = 0; i < alphasource.GetEmissionRate(); i++) {
 
 			unsigned int endOfList = _particles.size();
 			_particles.emplace_back(numProtons, numNucleons, constants);
 
 			// Gets a random value between +- alphaSourceSpread to 2 decimal places (in radians)
-			int preAdjustedOffsetAngle = rand() % (int)(100 * alphasource.getSourceSpread() * 2);
-			float offsetAngle = preAdjustedOffsetAngle / 100.0 - alphasource.getSourceSpread();
-			float emissionAngle = alphasource.getAngle() + offsetAngle;
+			int preAdjustedOffsetAngle = rand() % (int)(100 * alphasource.GetSourceSpread() * 2);
+			float offsetAngle = preAdjustedOffsetAngle / 100.0 - alphasource.GetSourceSpread();
+			float emissionAngle = alphasource.GetAngle() + offsetAngle;
 
 			float xVelocity = cos(emissionAngle) * alphaParticleSpeed;
 			float yVelocity = sin(emissionAngle) * alphaParticleSpeed;
@@ -41,9 +41,9 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 			float offsetY = alphasource.GetScale() / 2;
 
 			_particles.back().SetPos(alphasource.GetPos() + glm::vec3({offsetX, offsetY, 0}));
-			_particles.back().setVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
-			_particles.back().setTimeToLive(constants.defaultParticleTTL);
-			_particles.back().setPersistent(false);
+			_particles.back().SetVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
+			_particles.back().SetTimeToLive(constants.defaultParticleTTL);
+			_particles.back().SetPersistent(false);
 		}
 	}
 }
@@ -54,11 +54,11 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 	unsigned int i = 0;
 
 	for (auto& particle : _particles) {
-		if (!particle.isPersistent() && particle.getTimeToLive() <= 0) {
+		if (!particle.IsPersistent() && particle.GetTimeToLive() <= 0) {
 			particlesToCull.push_back(i);
 		}
 		else {
-			particle.incrementFrame();
+			particle.IncrementFrame();
 		}
 		i++;
 	}
@@ -82,8 +82,8 @@ RutherfordScattering::Simulation::Simulation()
 	constants.nucleonMass = 1.67e-27;
 	constants.atomicRadiusMultiplier = 1e5;
 
-	Particle::generateParticleVertexes();
-	Particle::generateParticleIndexes();
+	Particle::GenerateParticleVertexes();
+	Particle::GenerateParticleIndexes();
 
 	CreateFoil();
 	CreateAlphaSources();

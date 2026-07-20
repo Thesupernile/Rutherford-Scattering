@@ -4,7 +4,7 @@
 std::vector<RutherfordScattering::Particle::objectVertex> RutherfordScattering::Particle::objectVertices;
 std::vector<objectIndex> RutherfordScattering::Particle::objectIndexes;
 
-void RutherfordScattering::Particle::generateParticleVertexes()
+void RutherfordScattering::Particle::GenerateParticleVertexes()
 {
     // Plus one is for the centre and the two is for the two coordinates
     objectVertices.push_back({ 0.0f, 0.0f, 0.5f, 0.5f });
@@ -26,7 +26,7 @@ void RutherfordScattering::Particle::generateParticleVertexes()
     }
 }
 
-void RutherfordScattering::Particle::generateParticleIndexes()
+void RutherfordScattering::Particle::GenerateParticleIndexes()
 {
     // 3 since there is a triangle for every vertex
 
@@ -44,7 +44,7 @@ void RutherfordScattering::Particle::generateParticleIndexes()
     }
 }
 
-void RutherfordScattering::Particle::calculateScale()
+void RutherfordScattering::Particle::CalculateScale()
 {
     float nuclearRadius = _constants.hydrogenRadius * pow(_nucleonNumber, 1.0/3.0);
 
@@ -53,14 +53,14 @@ void RutherfordScattering::Particle::calculateScale()
     _scale = _constants.simulationScaleFactor * atomicRadius;
 }
 
-void RutherfordScattering::Particle::calculateCharge()
+void RutherfordScattering::Particle::CalculateCharge()
 {
     _charge = _constants.protonCharge * _protonNumber;
 }
 
-void RutherfordScattering::Particle::determineColour()
+void RutherfordScattering::Particle::DetermineColour()
 {
-    calculateCharge();
+    CalculateCharge();
     if (!_isMovable) {
         _colour = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
         return;
@@ -82,9 +82,9 @@ RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Co
     layout.Push<float>(2);
     _isPersistent = true;
 
-    calculateScale();
-    calculateCharge();
-    determineColour();
+    CalculateScale();
+    CalculateCharge();
+    DetermineColour();
 
     SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
     SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject-1) * 3);
@@ -116,38 +116,38 @@ RutherfordScattering::Particle::~Particle()
 
 }
 
-void RutherfordScattering::Particle::incrementFrame() {
+void RutherfordScattering::Particle::IncrementFrame() {
     _position += _velocity;
     _timeToLive--;
 }
 
-void RutherfordScattering::Particle::setIsMovable(bool newValue)
+void RutherfordScattering::Particle::SetIsMovable(bool newValue)
 {
     _isMovable = newValue;
-    determineColour();
+    DetermineColour();
 }
 
-bool RutherfordScattering::Particle::isMovable()
+bool RutherfordScattering::Particle::IsMovable()
 {
     return _isMovable;
 }
 
-int RutherfordScattering::Particle::getNuclearRadius()
+int RutherfordScattering::Particle::GetNuclearRadius()
 {
     return 0;
 }
 
-int RutherfordScattering::Particle::getAtomicRadius()
+int RutherfordScattering::Particle::GetAtomicRadius()
 {
     return 0;
 }
 
-void RutherfordScattering::Particle::setVelocity(glm::vec3 newVelocity)
+void RutherfordScattering::Particle::SetVelocity(glm::vec3 newVelocity)
 {
     _velocity = newVelocity;
 }
 
-glm::vec3 RutherfordScattering::Particle::getVelocity()
+glm::vec3 RutherfordScattering::Particle::GetVelocity()
 {
     return _velocity;
 }
