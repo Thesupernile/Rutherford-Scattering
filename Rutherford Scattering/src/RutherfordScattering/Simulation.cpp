@@ -13,7 +13,7 @@ void RutherfordScattering::Simulation::CreateFoil()
 void RutherfordScattering::Simulation::CreateAlphaSources()
 {
 	_alphaSources.emplace_back(AlphaSource());
-	_alphaSources[0].SetPos(glm::vec3({ 0, 350, 0 }));
+	_alphaSources[0].SetPos(glm::vec3({ 15, 350, 0 }));
 }
 
 void RutherfordScattering::Simulation::ProcessAlphaEmissions()
@@ -23,6 +23,9 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed * constants.simulationTimeFactor;
 
 	for (auto& alphasource : _alphaSources) {
+		alphasource.SetPos(glm::vec3({ constants.alphaSourcePos.x, constants.alphaSourcePos.y, 0 }));
+		alphasource.SetAngle(constants.alphaSourceAngle);
+
 		for (int i = 0; i < alphasource.GetEmissionRate(); i++) {
 
 			unsigned int endOfList = _particles.size();
@@ -37,8 +40,8 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 			float yVelocity = sin(emissionAngle) * alphaParticleSpeed;
 
 			// Offset to position the spawned alpha particle at the front of the source
-			float offsetX = alphasource.GetScale() * (3.0/4.0);
-			float offsetY = alphasource.GetScale() / 2;
+			float offsetX = alphasource.GetScale() / 2 + alphasource.GetScale() / 2 * cos(alphasource.GetAngle());
+			float offsetY = alphasource.GetScale() / 2 + alphasource.GetScale() / 2 * sin(alphasource.GetAngle());
 
 			_particles.back().SetPos(alphasource.GetPos() + glm::vec3({offsetX, offsetY, 0}));
 			_particles.back().SetVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
@@ -101,11 +104,9 @@ void RutherfordScattering::Simulation::ProcessSimulationFrame()
 	ProcessElectrostaticForces();
 }
 
-void RutherfordScattering::Simulation::SetNewConstants(Constants newConstants)
+RutherfordScattering::Constants* RutherfordScattering::Simulation::GetConstantsPtr()
 {
-	constants = newConstants;
-	CreateFoil();
-	CreateAlphaSources();
+	return &constants;
 }
 
 void RutherfordScattering::Simulation::DrawElements(glm::mat4& VP, Renderer& renderer)

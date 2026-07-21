@@ -30,6 +30,7 @@
 
 int main(void)
 {
+    const float PI = 3.141592;
     const float WINDOW_SCALE_FACTOR = 1;
     float cameraScaleFactor = 1;
 
@@ -107,6 +108,8 @@ int main(void)
             sim.ProcessSimulationFrame();
             sim.DrawElements(VP, renderer);
 
+            RutherfordScattering::Constants* pSimConstants = sim.GetConstantsPtr();
+
             // ImGui window
             static float f = 0.0f;
             static int counter = 0;
@@ -115,6 +118,9 @@ int main(void)
 
             ImGui::SliderFloat2("Camera Position", &cameraPos.x, -WINDOW_WIDTH, WINDOW_WIDTH);
             ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1.0f/10.0f, 100);
+
+            ImGui::SliderFloat2("Alpha Source Position:", &pSimConstants->alphaSourcePos.x, 0, 500);
+            ImGui::SliderFloat("Alpha Source Rotation", &pSimConstants->alphaSourceAngle, 0, 2 * PI);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();

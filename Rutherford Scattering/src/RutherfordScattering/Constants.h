@@ -1,4 +1,9 @@
 #pragma once
+
+// Include glm
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 namespace RutherfordScattering {
 	struct Constants {
 		// Universal Constants
@@ -12,6 +17,10 @@ namespace RutherfordScattering {
 		int numProtonsPerAlphaSource = 2;
 		int numNeutronsPerAlphaSource = 2;
 		float alphaParticleInitialSpeed = 1.5e7f;
+
+		// Alpha Source Constants
+		glm::vec3 alphaSourcePos;
+		float alphaSourceAngle = 0;
 
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;

@@ -9,8 +9,8 @@ void RutherfordScattering::AlphaSource::GenerateObjectVertices()
 	objectVertices.emplace_back(objectVertex({ 0.5, 1.0, 0.5, 1.0 }));
 	objectVertices.emplace_back(objectVertex({ 0.5, 0.3, 0.5, 0.3 }));
 	objectVertices.emplace_back(objectVertex({ 0.5, 0.7, 0.5, 0.7 }));
-	objectVertices.emplace_back(objectVertex({ 0.9, 0.3, 0.9, 0.3 }));
-	objectVertices.emplace_back(objectVertex({ 0.9, 0.7, 0.9, 0.7 }));
+	objectVertices.emplace_back(objectVertex({ 1.0, 0.3, 1.0, 0.3 }));
+	objectVertices.emplace_back(objectVertex({ 1.0, 0.7, 1.0, 0.7 }));
 }
 
 void RutherfordScattering::AlphaSource::GenerateObjectIndicies()
@@ -25,7 +25,7 @@ void RutherfordScattering::AlphaSource::GenerateObjectIndicies()
 RutherfordScattering::AlphaSource::AlphaSource()
 {
 	// Default values for members are semi random
-	_angle =		0;	
+	_rotation =		PI;	
 	_emissionRate = 1;	
 	_gapWidth =		2;	
 	_sourceSpread =	0.3;	
@@ -51,7 +51,6 @@ RutherfordScattering::AlphaSource::~AlphaSource()
 RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 	DrawableObject(oldObject)
 {
-	_angle = oldObject._angle;
 	_emissionRate = oldObject._emissionRate;
 	_gapWidth = oldObject._gapWidth;
 	_sourceSpread = oldObject._sourceSpread;
@@ -83,10 +82,10 @@ int RutherfordScattering::AlphaSource::GetEmissionRate()
 
 void RutherfordScattering::AlphaSource::SetAngle(float newAngle)
 {
-	_angle = newAngle;
+	_rotation = newAngle;
 }
 
-int RutherfordScattering::AlphaSource::GetAngle()
+float RutherfordScattering::AlphaSource::GetAngle()
 {
-	return _angle;
+	return _rotation;
 }

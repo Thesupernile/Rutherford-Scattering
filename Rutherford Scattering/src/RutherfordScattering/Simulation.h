@@ -10,6 +10,7 @@ namespace RutherfordScattering {
 	private:
 		std::vector<AlphaSource> _alphaSources = std::vector<AlphaSource>();
 		std::list<Particle> _particles = std::list<Particle>();
+		Constants constants;
 
 		void CreateFoil();
 		void CreateAlphaSources();
@@ -18,14 +19,12 @@ namespace RutherfordScattering {
 		void ProcessParticleMovement();
 		void ProcessElectrostaticForces();
 	public:
-		Constants constants;
-
 		Simulation();
 		~Simulation();
 
 
 		void ProcessSimulationFrame();
-		void SetNewConstants(Constants newConstants);
+		Constants* GetConstantsPtr();
 		void DrawElements(glm::mat4& VP, Renderer& renderer);
 	};
 }
