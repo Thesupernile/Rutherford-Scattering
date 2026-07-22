@@ -19,7 +19,7 @@ namespace RutherfordScattering {
 		float alphaParticleInitialSpeed = 1.5e7f;
 
 		// Alpha Source Constants
-		glm::vec3 alphaSourcePos;
+		glm::vec3 alphaSourcePos = glm::vec3({0, 350, 0});
 		float alphaSourceAngle = 0;
 
 		// Simulation Constants

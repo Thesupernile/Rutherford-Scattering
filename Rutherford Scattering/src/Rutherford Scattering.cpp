@@ -116,11 +116,13 @@ int main(void)
 
             ImGui::Begin("Control Pannel");
 
+            ImGui::Text("Camera:");
             ImGui::SliderFloat2("Camera Position", &cameraPos.x, -WINDOW_WIDTH, WINDOW_WIDTH);
             ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1.0f/10.0f, 100);
 
-            ImGui::SliderFloat2("Alpha Source Position:", &pSimConstants->alphaSourcePos.x, 0, 500);
-            ImGui::SliderFloat("Alpha Source Rotation", &pSimConstants->alphaSourceAngle, 0, 2 * PI);
+            ImGui::Text("\nAlpha Source:");
+            ImGui::SliderFloat2("Alpha Source Position", &pSimConstants->alphaSourcePos.x, 0, 500);
+            ImGui::SliderFloat("Alpha Source Rotation", &pSimConstants->alphaSourceAngle, 0, 360);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();

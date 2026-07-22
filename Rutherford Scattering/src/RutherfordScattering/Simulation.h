@@ -8,6 +8,7 @@
 namespace RutherfordScattering {
 	static class Simulation {
 	private:
+		float PI = 3.141592;
 		std::vector<AlphaSource> _alphaSources = std::vector<AlphaSource>();
 		std::list<Particle> _particles = std::list<Particle>();
 		Constants constants;

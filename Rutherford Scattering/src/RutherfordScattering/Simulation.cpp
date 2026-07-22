@@ -24,7 +24,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 
 	for (auto& alphasource : _alphaSources) {
 		alphasource.SetPos(glm::vec3({ constants.alphaSourcePos.x, constants.alphaSourcePos.y, 0 }));
-		alphasource.SetAngle(constants.alphaSourceAngle);
+		alphasource.SetAngle(constants.alphaSourceAngle/360 * (2 * PI));
 
 		for (int i = 0; i < alphasource.GetEmissionRate(); i++) {
 
