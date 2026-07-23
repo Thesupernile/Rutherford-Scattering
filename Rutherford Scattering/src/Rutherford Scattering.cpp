@@ -120,13 +120,15 @@ int main(void)
             ImGui::SliderFloat2("Camera Position", &cameraPos.x, -WINDOW_WIDTH, WINDOW_WIDTH);
             ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1.0f/10.0f, 100);
 
+            ImGui::Text("\nSimulation:");
+            ImGui::SliderFloat("Proton Charge", &pSimConstants->protonCharge, 1.6e-20, 1.6e-18, "%e");
+
             ImGui::Text("\nAlpha Source:");
             ImGui::SliderFloat2("Alpha Source Position", &pSimConstants->alphaSourcePos.x, 0, 500);
             ImGui::SliderFloat("Alpha Source Rotation", &pSimConstants->alphaSourceAngle, 0, 360);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
-
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -7,11 +7,14 @@
 namespace RutherfordScattering {
 	struct Constants {
 		// Universal Constants
-		float permitivityOfFreeSpace;
+		float PI = 3.141592;
+		float permitivityOfFreeSpace = 8.85e-12;
 		float hydrogenRadius;
 		float nucleonMass;
 		float atomicRadiusMultiplier;
 		float protonCharge = 1.6e-19;
+
+		float GetElectrostaticConstant() { return 1 / (4 * PI * permitivityOfFreeSpace); }
 
 		// Alpha Particle Constants
 		int numProtonsPerAlphaSource = 2;
@@ -26,7 +29,7 @@ namespace RutherfordScattering {
 		float simulationScaleFactor = 7e9f;
 		float simulationTimeFactor = 3e-7f;
 
-		int defaultParticleTTL = 400;
+		int defaultParticleTTL = 350;
 
 		// Foil Constants
 		int foilWidth = 2;

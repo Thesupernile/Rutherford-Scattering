@@ -32,8 +32,11 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 			_particles.emplace_back(numProtons, numNucleons, constants);
 
 			// Gets a random value between +- alphaSourceSpread to 2 decimal places (in radians)
-			int preAdjustedOffsetAngle = rand() % (int)(100 * alphasource.GetSourceSpread() * 2);
-			float offsetAngle = preAdjustedOffsetAngle / 100.0 - alphasource.GetSourceSpread();
+			float offsetAngle = 0;
+			if (alphasource.GetSourceSpread() != 0) {
+				int preAdjustedOffsetAngle = rand() % (int)(100 * alphasource.GetSourceSpread() * 2);
+				offsetAngle = preAdjustedOffsetAngle / 100.0 - alphasource.GetSourceSpread();
+			}
 			float emissionAngle = alphasource.GetAngle() + offsetAngle;
 
 			float xVelocity = cos(emissionAngle) * alphaParticleSpeed;
@@ -75,7 +78,19 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 
 void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 {
+	for (auto& particle1 : _particles) {
+		if (!particle1.IsPersistent()) {
+			for (auto& particle2 : _particles) {
+				// Persistent particles make up the foil (other particles excluded for performance reasons)
+				if (particle2.IsPersistent()) {
+					glm::vec3 separation = particle1.GetPos() - particle2.GetPos();
+					separation = separation / constants.simulationScaleFactor;
 
+					particle1.ProcessElectromagneticForces(separation, particle2.GetCharge());
+				}
+			}
+		}
+	}
 }
 
 RutherfordScattering::Simulation::Simulation()
