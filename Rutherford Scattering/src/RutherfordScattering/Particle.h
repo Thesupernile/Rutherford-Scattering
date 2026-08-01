@@ -56,7 +56,7 @@ namespace RutherfordScattering {
 
 		float GetCharge() { return _charge; }
 
-		void ProcessElectromagneticForces(glm::vec3 relativeParticlePosition, float particleCharge);
+		void ProcessElectromagneticForces(glm::vec3 relativeParticlePosition, float particleCharge, float secondParticleNuclearRadius);
 	};
 
 }

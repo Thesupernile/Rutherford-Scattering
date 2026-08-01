@@ -28,7 +28,7 @@ RutherfordScattering::AlphaSource::AlphaSource()
 	_rotation =		PI;	
 	_emissionRate = 1;	
 	_gapWidth =		2;	
-	_sourceSpread =	0.3;	
+	_sourceSpread =	0.1;	
 	_scale =		40;
 
 	layout.Push<float>(2);

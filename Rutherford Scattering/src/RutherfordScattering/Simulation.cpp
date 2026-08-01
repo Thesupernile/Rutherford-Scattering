@@ -31,11 +31,11 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 			unsigned int endOfList = _particles.size();
 			_particles.emplace_back(numProtons, numNucleons, constants);
 
-			// Gets a random value between +- alphaSourceSpread to 2 decimal places (in radians)
+			// Gets a random value between +- alphaSourceSpread to 4 decimal places (in radians)
 			float offsetAngle = 0;
 			if (alphasource.GetSourceSpread() != 0) {
-				int preAdjustedOffsetAngle = rand() % (int)(100 * alphasource.GetSourceSpread() * 2);
-				offsetAngle = preAdjustedOffsetAngle / 100.0 - alphasource.GetSourceSpread();
+				int preAdjustedOffsetAngle = rand() % (int)(10000 * alphasource.GetSourceSpread() * 2);
+				offsetAngle = preAdjustedOffsetAngle / 10000.0 - alphasource.GetSourceSpread();
 			}
 			float emissionAngle = alphasource.GetAngle() + offsetAngle;
 
@@ -86,7 +86,7 @@ void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 					glm::vec3 separation = particle1.GetPos() - particle2.GetPos();
 					separation = separation / constants.simulationScaleFactor;
 
-					particle1.ProcessElectromagneticForces(separation, particle2.GetCharge());
+					particle1.ProcessElectromagneticForces(separation, particle2.GetCharge(), particle2.GetNuclearRadius());
 				}
 			}
 		}
