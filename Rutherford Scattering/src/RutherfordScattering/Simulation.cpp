@@ -100,9 +100,6 @@ RutherfordScattering::Simulation::Simulation()
 	constants.nucleonMass = 1.67e-27;
 	constants.atomicRadiusMultiplier = 1e5;
 
-	Particle::GenerateParticleVertexes();
-	Particle::GenerateParticleIndexes();
-
 	CreateFoil();
 	CreateAlphaSources();
 }

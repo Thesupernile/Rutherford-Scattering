@@ -13,6 +13,15 @@ namespace RutherfordScattering {
 	private:
 		static constexpr float PI = 3.141592;
 
+		static VertexBuffer* vb;
+		static VertexArray* va;
+		static IndexBuffer* ib;
+
+		static Shader* shader;
+		static std::string shaderFilePath;
+		static Texture* texture;
+		static VertexBufferLayout* layout;
+
 		int _protonNumber;
 		int _nucleonNumber;
 		float _charge;
@@ -32,10 +41,13 @@ namespace RutherfordScattering {
 		void DetermineColour();
 
 	public:
+		static unsigned int particleCount;
+
 		Particle(int protonNumber, int nucleonNumber, Constants& constants);
 		Particle(const Particle& oldParticle);
 		~Particle();
 
+		static void CreateGraphics();
 		static void GenerateParticleVertexes();
 		static void GenerateParticleIndexes();
 
@@ -57,6 +69,8 @@ namespace RutherfordScattering {
 		float GetCharge() { return _charge; }
 
 		void ProcessElectromagneticForces(glm::vec3 relativeParticlePosition, float particleCharge, float secondParticleNuclearRadius);
+
+		void Draw(glm::mat4& VPMatrix, Renderer& renderer) override;
 	};
 
 }

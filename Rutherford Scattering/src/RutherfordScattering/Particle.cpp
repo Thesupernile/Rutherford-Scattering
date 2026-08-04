@@ -1,8 +1,19 @@
 #include "Particle.h"
 #include <iostream>
 
+VertexBuffer* RutherfordScattering::Particle::vb = nullptr;
+VertexArray* RutherfordScattering::Particle::va = nullptr;
+IndexBuffer* RutherfordScattering::Particle::ib = nullptr;
+
+Shader* RutherfordScattering::Particle::shader = nullptr;
+std::string RutherfordScattering::Particle::shaderFilePath = "res/shaders/particle.shader";
+Texture* RutherfordScattering::Particle::texture = nullptr;
+VertexBufferLayout* RutherfordScattering::Particle::layout = nullptr;
+
 std::vector<RutherfordScattering::Particle::objectVertex> RutherfordScattering::Particle::objectVertices;
 std::vector<objectIndex> RutherfordScattering::Particle::objectIndexes;
+
+unsigned int RutherfordScattering::Particle::particleCount = 0;
 
 void RutherfordScattering::Particle::GenerateParticleVertexes()
 {
@@ -24,6 +35,10 @@ void RutherfordScattering::Particle::GenerateParticleVertexes()
 
         objectVertices.push_back(newVertex);
     }
+
+    layout->Push<float>(2);
+    layout->Push<float>(2);
+    SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex), *vb, *va, *layout);
 }
 
 void RutherfordScattering::Particle::GenerateParticleIndexes()
@@ -42,6 +57,7 @@ void RutherfordScattering::Particle::GenerateParticleIndexes()
         }
         objectIndexes.push_back(newIndex);
     }
+    SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject - 1) * 3, *ib);
 }
 
 void RutherfordScattering::Particle::CalculateScale()
@@ -76,19 +92,31 @@ void RutherfordScattering::Particle::DetermineColour()
     }
 }
 
+void RutherfordScattering::Particle::CreateGraphics()
+{
+    vb = new VertexBuffer();
+    va = new VertexArray();
+    ib = new IndexBuffer();
+    shader = new Shader();
+    texture = new Texture();
+    layout = new VertexBufferLayout();
+
+    GenerateParticleVertexes();
+    GenerateParticleIndexes();
+    SetShader(shaderFilePath, *shader);
+}
+
 RutherfordScattering::Particle::Particle(int protonNumber, int nucleonNumber, Constants& constants)
 : _protonNumber(protonNumber), _nucleonNumber(nucleonNumber), _constants(constants), DrawableObject() {
-    layout.Push<float>(2);
-    layout.Push<float>(2);
     _isPersistent = true;
 
     CalculateScale();
     CalculateCharge();
     DetermineColour();
-
-    SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
-    SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject-1) * 3);
-    SetShader(shaderFilePath);
+    if (particleCount == 0) {
+        CreateGraphics();
+    }
+    particleCount++;
     //SetTexture(textureFilePath);
 }
 
@@ -105,15 +133,21 @@ RutherfordScattering::Particle::Particle(const Particle& oldParticle) :
     objectIndexes = oldParticle.objectIndexes;
     objectVertices = oldParticle.objectVertices;
 
-    SetVertexBufferData(objectVertices.data(), numVerticesPerObject * sizeof(objectVertex));
-    SetIndexBufferData(ParseIndices(objectIndexes).data(), (numVerticesPerObject - 1) * 3);
-    SetShader(shaderFilePath);
+    particleCount++;
     //SetTexture(textureFilePath);
 }
 
 RutherfordScattering::Particle::~Particle()
 {
-
+    particleCount--;
+    if (particleCount == 0) {
+        delete(vb);
+        delete(va);
+        delete(ib);
+        delete(texture);
+        delete(shader);
+        delete(layout);
+    }
 }
 
 void RutherfordScattering::Particle::IncrementFrame() {
@@ -163,4 +197,9 @@ void RutherfordScattering::Particle::ProcessElectromagneticForces(glm::vec3 rela
     float timeFactor = pow(_constants.simulationTimeFactor, 2);
 
     _velocity += acceleration * timeFactor;
+}
+
+void RutherfordScattering::Particle::Draw(glm::mat4& VPMatrix, Renderer& renderer)
+{
+    DrawObject(VPMatrix, renderer, *va, *ib, *shader);
 }

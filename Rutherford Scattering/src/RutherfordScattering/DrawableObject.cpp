@@ -4,20 +4,20 @@ RutherfordScattering::DrawableObject::DrawableObject()
 {
 }
 
-void RutherfordScattering::DrawableObject::SetVertexBufferData(const void* data, unsigned int size) {
+void RutherfordScattering::DrawableObject::SetVertexBufferData(const void* data, unsigned int size, VertexBuffer& vb, VertexArray& va, VertexBufferLayout& layout) {
 	vb.AddBufferData(data, size);
 	va.AddBuffer(vb, layout);
 }
 
-void RutherfordScattering::DrawableObject::SetIndexBufferData(unsigned int* data, unsigned int count) {
+void RutherfordScattering::DrawableObject::SetIndexBufferData(unsigned int* data, unsigned int count, IndexBuffer& ib) {
 	ib.AddBufferData(data, count);
 }
 
-void RutherfordScattering::DrawableObject::SetShader(std::string path) {
+void RutherfordScattering::DrawableObject::SetShader(std::string path, Shader& shader) {
 	shader.SetShaderProgram(path);
 }
 
-void RutherfordScattering::DrawableObject::SetTexture(std::string path) {
+void RutherfordScattering::DrawableObject::SetTexture(std::string path, Texture& texture) {
 	texture.SetTexture(path);
 }
 
@@ -28,10 +28,7 @@ RutherfordScattering::DrawableObject::~DrawableObject()
 
 RutherfordScattering::DrawableObject::DrawableObject(const DrawableObject& oldObject)
 {
-	shaderFilePath = oldObject.shaderFilePath;
 	textureFilePath = oldObject.textureFilePath;
-
-	layout = oldObject.layout;
 
 	_scale = oldObject._scale;
 	_position = oldObject._position;
@@ -64,7 +61,7 @@ float RutherfordScattering::DrawableObject::GetScale() {
 	return _scale;
 }
 
-void RutherfordScattering::DrawableObject::Draw(glm::mat4& VPMatrix, Renderer& renderer)
+void RutherfordScattering::DrawableObject::DrawObject(glm::mat4& VPMatrix, Renderer& renderer, VertexArray& va, IndexBuffer& ib, Shader& shader)
 {
 	va.Bind();
 	shader.Bind();

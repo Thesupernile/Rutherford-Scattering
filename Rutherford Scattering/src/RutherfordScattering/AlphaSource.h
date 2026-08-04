@@ -8,6 +8,15 @@ namespace RutherfordScattering {
 		float _sourceSpread;	// The range of angles a particle can be emitted at
 		int _emissionRate;		// How many alpha particles the source emits per second
 
+		VertexBuffer vb;
+		VertexArray va;
+		IndexBuffer ib;
+
+		Shader shader;
+		std::string shaderFilePath = "res/shaders/particle.shader";
+		Texture texture;
+		VertexBufferLayout layout;
+
 		std::vector<objectVertex> objectVertices;
 		std::vector<objectIndex> objectIndexes;
 
@@ -29,5 +38,7 @@ namespace RutherfordScattering {
 		float GetAngle();
 
 		float GetSourceSpread() { return _sourceSpread; }
+
+		void Draw(glm::mat4& VPMatrix, Renderer& renderer) override;
 	};
 }

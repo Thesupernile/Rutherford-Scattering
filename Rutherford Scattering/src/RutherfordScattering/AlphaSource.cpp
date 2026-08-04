@@ -38,10 +38,10 @@ RutherfordScattering::AlphaSource::AlphaSource()
 	GenerateObjectVertices();
 	GenerateObjectIndicies();
 
-	SetVertexBufferData(objectVertices.data(), objectVertices.size() * sizeof(objectVertex));
-	SetIndexBufferData(ParseIndices(objectIndexes).data(), objectIndexes.size() * 3);
-	SetShader(shaderFilePath);
-	SetTexture(textureFilePath);
+	SetVertexBufferData(objectVertices.data(), objectVertices.size() * sizeof(objectVertex), vb, va, layout);
+	SetIndexBufferData(ParseIndices(objectIndexes).data(), objectIndexes.size() * 3, ib);
+	SetShader(shaderFilePath, shader);
+	SetTexture(textureFilePath, texture);
 }
 
 RutherfordScattering::AlphaSource::~AlphaSource()
@@ -59,10 +59,22 @@ RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 	objectIndexes = oldObject.objectIndexes;
 	objectVertices = oldObject.objectVertices;
 
-	SetVertexBufferData(objectVertices.data(), objectVertices.size() * sizeof(objectVertex));
-	SetIndexBufferData(ParseIndices(objectIndexes).data(), objectIndexes.size() * 3);
-	SetShader(shaderFilePath);
-	SetTexture(textureFilePath);
+	//vb = VertexBuffer();
+	//va = VertexArray();
+	//ib = oldObject.ib;
+	//texture = oldObject.texture;
+	//shader = oldObject.shader;
+	//layout = oldObject.layout;
+
+	shaderFilePath = oldObject.shaderFilePath;
+
+	layout.Push<float>(2);
+	layout.Push<float>(2);
+
+	SetVertexBufferData(objectVertices.data(), objectVertices.size() * sizeof(objectVertex), vb, va, layout);
+	SetIndexBufferData(ParseIndices(objectIndexes).data(), objectIndexes.size() * 3, ib);
+	SetShader(shaderFilePath, shader);
+	SetTexture(textureFilePath, texture);
 }
 
 void RutherfordScattering::AlphaSource::IncrementFrame()
@@ -88,4 +100,9 @@ void RutherfordScattering::AlphaSource::SetAngle(float newAngle)
 float RutherfordScattering::AlphaSource::GetAngle()
 {
 	return _rotation;
+}
+
+void RutherfordScattering::AlphaSource::Draw(glm::mat4& VPMatrix, Renderer& renderer)
+{
+	DrawObject(VPMatrix, renderer, va, ib, shader);
 }

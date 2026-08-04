@@ -14,18 +14,9 @@
 
 namespace RutherfordScattering {
 	class DrawableObject {
-	private:
-		VertexBuffer vb;
-		VertexArray va;
-		IndexBuffer ib;
-
-		Shader shader;
-		Texture texture;
-
 	protected:
 		const float PI = 3.1415926;
 
-		VertexBufferLayout layout;
 		glm::vec3 _position = glm::vec3(0, 0, 0);
 		glm::vec4 _colour = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
 		float _rotation = 0;
@@ -42,15 +33,14 @@ namespace RutherfordScattering {
 		// One "index" represents one triangle
 		//std::vector<objectIndex>* pObjectIndexes;
 
-		std::string shaderFilePath = "res/shaders/particle.shader";
 		std::string textureFilePath = "res/textures/emptyTexture.png";
 
-		void SetVertexBufferData(const void* data, unsigned int size);
-		void SetIndexBufferData(unsigned int* data, unsigned int count);
-		void SetShader(std::string path);
-		void SetTexture(std::string path);
+		static void SetVertexBufferData(const void* data, unsigned int size, VertexBuffer& vb, VertexArray& va, VertexBufferLayout& layout);
+		static void SetIndexBufferData(unsigned int* data, unsigned int count, IndexBuffer& ib);
+		static void SetShader(std::string path, Shader& shader);
+		static void SetTexture(std::string path, Texture& texture);
 
-		std::vector<unsigned int> ParseIndices(std::vector<objectIndex> data);
+		static std::vector<unsigned int> ParseIndices(std::vector<objectIndex> data);
 	public:
 		DrawableObject();
 		~DrawableObject();
@@ -61,6 +51,7 @@ namespace RutherfordScattering {
 		void SetPos(glm::vec3 newPosition);
 		glm::vec3 GetPos();
 		float GetScale();
-		void Draw(glm::mat4& VPMatrix, Renderer& renderer);
+		void DrawObject(glm::mat4& VPMatrix, Renderer& renderer, VertexArray& va, IndexBuffer& ib, Shader& shader);
+		virtual void Draw(glm::mat4& VPMatrix, Renderer& renderer) = 0;
 	};
 }
