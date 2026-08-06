@@ -69,6 +69,7 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 		i++;
 	}
 
+	// TODO Refactor to avoid repetitive advancing through all the static particles
 	for (unsigned int index : particlesToCull) {
 		std::list<Particle>::iterator iter = _particles.begin();
 		std::advance(iter, index);

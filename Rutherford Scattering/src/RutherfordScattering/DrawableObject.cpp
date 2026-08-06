@@ -32,6 +32,7 @@ RutherfordScattering::DrawableObject::DrawableObject(const DrawableObject& oldOb
 
 	_scale = oldObject._scale;
 	_position = oldObject._position;
+	_oldPosition = oldObject._oldPosition;
 	_rotation = oldObject._rotation;
 }
 
@@ -49,12 +50,17 @@ std::vector<unsigned int> RutherfordScattering::DrawableObject::ParseIndices(std
 
 void RutherfordScattering::DrawableObject::SetPos(glm::vec3 newPosition)
 {
+	_oldPosition = _position;
 	_position = newPosition;
 }
 
 glm::vec3 RutherfordScattering::DrawableObject::GetPos()
 {
 	return _position;
+}
+
+glm::vec3 RutherfordScattering::DrawableObject::GetPreviousPos() {
+	return _oldPosition;
 }
 
 float RutherfordScattering::DrawableObject::GetScale() {

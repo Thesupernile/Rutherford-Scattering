@@ -152,7 +152,7 @@ RutherfordScattering::Particle::~Particle()
 
 void RutherfordScattering::Particle::IncrementFrame() {
     CalculateCharge();
-    _position += _velocity;
+    SetPos(_position + _velocity);
     _timeToLive--;
 }
 
@@ -187,7 +187,7 @@ glm::vec3 RutherfordScattering::Particle::GetVelocity()
     return _velocity;
 }
 
-void RutherfordScattering::Particle::ProcessElectromagneticForces(glm::vec3 relativeParticlePosition, float particleCharge, float secondParticleNuclearRadius)
+void RutherfordScattering::Particle::ProcessElectromagneticForces(glm::vec3& relativeParticlePosition, float particleCharge, float secondParticleNuclearRadius)
 {
     float particleDistanceSqrd = pow(relativeParticlePosition.x, 2) + pow(relativeParticlePosition.y, 2) + pow(relativeParticlePosition.z, 2);
     float distance = sqrt(particleDistanceSqrd) - secondParticleNuclearRadius - GetNuclearRadius();
