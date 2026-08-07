@@ -92,6 +92,26 @@ void RutherfordScattering::Particle::DetermineColour()
     }
 }
 
+glm::vec3 RutherfordScattering::Particle::CalculateNewVelocity(const glm::vec3& currentPos, const glm::vec3& secondParticlePos, float secondParticleCharge, float secondParticleNuclearRadius)
+{
+    glm::vec3 relativeParticlePos = currentPos - secondParticlePos;
+    relativeParticlePos = relativeParticlePos / _constants.simulationScaleFactor;
+
+    float particleDistanceSqrd = pow(relativeParticlePos.x, 2) + pow(relativeParticlePos.y, 2) + pow(relativeParticlePos.z, 2);
+    float distance = sqrt(particleDistanceSqrd) - secondParticleNuclearRadius - GetNuclearRadius();
+    glm::vec3 force = (float)(_constants.GetElectrostaticConstant() * (secondParticleCharge * GetCharge() / particleDistanceSqrd)) * (relativeParticlePos / distance);
+
+    glm::vec3 acceleration = force / (_nucleonNumber * _constants.nucleonMass);
+    float timeFactor = pow(_constants.simulationTimeFactor, 2);
+
+    return _velocity + acceleration * timeFactor;
+}
+
+glm::vec3 RutherfordScattering::Particle::GetNewPosition(glm::vec3& velocity)
+{
+    return _position + velocity * _constants.simulationTimeFactor;
+}
+
 void RutherfordScattering::Particle::CreateGraphics()
 {
     vb = new VertexBuffer();
@@ -152,7 +172,7 @@ RutherfordScattering::Particle::~Particle()
 
 void RutherfordScattering::Particle::IncrementFrame() {
     CalculateCharge();
-    SetPos(_position + _velocity);
+    SetPos(GetNewPosition(_velocity));
     _timeToLive--;
 }
 
@@ -187,16 +207,16 @@ glm::vec3 RutherfordScattering::Particle::GetVelocity()
     return _velocity;
 }
 
-void RutherfordScattering::Particle::ProcessElectromagneticForces(glm::vec3& relativeParticlePosition, float particleCharge, float secondParticleNuclearRadius)
+void RutherfordScattering::Particle::ProcessElectromagneticForces(const glm::vec3& secondParticlePos, float particleCharge, float secondParticleNuclearRadius)
 {
-    float particleDistanceSqrd = pow(relativeParticlePosition.x, 2) + pow(relativeParticlePosition.y, 2) + pow(relativeParticlePosition.z, 2);
-    float distance = sqrt(particleDistanceSqrd) - secondParticleNuclearRadius - GetNuclearRadius();
-    glm::vec3 force = (float)(_constants.GetElectrostaticConstant() * (particleCharge * GetCharge() / particleDistanceSqrd)) * relativeParticlePosition;
+    // Step forwards one unit
+    glm::vec3 tempVelocity = CalculateNewVelocity(GetPos(), secondParticlePos, particleCharge, secondParticleNuclearRadius);
+    glm::vec3 predictedPos = _position + tempVelocity * _constants.simulationTimeFactor;
+    glm::vec3 averagePos = (predictedPos + GetPos()) / glm::vec3({ 2, 2, 2});
 
-    glm::vec3 acceleration = force / (_nucleonNumber * _constants.nucleonMass);
-    float timeFactor = pow(_constants.simulationTimeFactor, 2);
 
-    _velocity += acceleration * timeFactor;
+    // Use the simulated step forwards to find the average position and use this to calculate the actual amount to move it by
+    _velocity = CalculateNewVelocity(averagePos, secondParticlePos, particleCharge, secondParticleNuclearRadius);
 }
 
 void RutherfordScattering::Particle::Draw(glm::mat4& VPMatrix, Renderer& renderer)

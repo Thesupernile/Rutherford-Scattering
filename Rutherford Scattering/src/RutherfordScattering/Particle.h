@@ -40,6 +40,9 @@ namespace RutherfordScattering {
 		void CalculateCharge();
 		void DetermineColour();
 
+		glm::vec3 CalculateNewVelocity(const glm::vec3& currentPos, const glm::vec3& secondParticlePos, float secondParticleCharge, float secondParticleNuclearRadius);
+		glm::vec3 GetNewPosition(glm::vec3& velocity);
+
 	public:
 		static unsigned int particleCount;
 
@@ -68,7 +71,7 @@ namespace RutherfordScattering {
 
 		float GetCharge() { return _charge; }
 
-		void ProcessElectromagneticForces(glm::vec3& relativeParticlePosition, float particleCharge, float secondParticleNuclearRadius);
+		void ProcessElectromagneticForces(const glm::vec3& secondParticlePos, float particleCharge, float secondParticleNuclearRadius);
 
 		void Draw(glm::mat4& VPMatrix, Renderer& renderer) override;
 	};

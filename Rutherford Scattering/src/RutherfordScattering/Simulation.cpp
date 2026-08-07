@@ -20,7 +20,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 {
 	const int numProtons = constants.numProtonsPerAlphaSource;
 	const int numNucleons = constants.numNeutronsPerAlphaSource + numProtons;
-	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed * constants.simulationTimeFactor;
+	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed;
 
 	for (auto& alphasource : _alphaSources) {
 		alphasource.SetPos(glm::vec3({ constants.alphaSourcePos.x, constants.alphaSourcePos.y, 0 }));
@@ -84,10 +84,7 @@ void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 			for (auto& particle2 : _particles) {
 				// Persistent particles make up the foil (other particles excluded for performance reasons)
 				if (particle2.IsPersistent()) {
-					glm::vec3 separation = particle1.GetPos() - particle2.GetPos();
-					separation = separation / constants.simulationScaleFactor;
-
-					particle1.ProcessElectromagneticForces(separation, particle2.GetCharge(), particle2.GetNuclearRadius());
+					particle1.ProcessElectromagneticForces(particle2.GetPos(), particle2.GetCharge(), particle2.GetNuclearRadius());
 				}
 			}
 		}
