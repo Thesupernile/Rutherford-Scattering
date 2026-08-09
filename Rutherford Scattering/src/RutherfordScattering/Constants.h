@@ -17,13 +17,14 @@ namespace RutherfordScattering {
 		float GetElectrostaticConstant() { return 1 / (4 * PI * permitivityOfFreeSpace); }
 
 		// Alpha Particle Constants
-		int numProtonsPerAlphaSource = 2;
-		int numNeutronsPerAlphaSource = 2;
+		int numProtonsPerAlpha = 2;
+		int numNeutronsPerAlpha = 2;
 		float alphaParticleInitialSpeed = 1.5e7f;
 
 		// Alpha Source Constants
 		glm::vec3 alphaSourcePos = glm::vec3({0, 350, 0});
 		float alphaSourceAngle = 0;
+		float alphaSourceSpread = 5;
 
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
@@ -32,7 +33,7 @@ namespace RutherfordScattering {
 		int defaultParticleTTL = 300;
 
 		// Foil Constants
-		int foilWidth = 2;
+		int foilWidth = 1;
 		int foilLength = 75;
 	};
 }

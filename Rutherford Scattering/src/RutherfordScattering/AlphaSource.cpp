@@ -59,13 +59,6 @@ RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 	objectIndexes = oldObject.objectIndexes;
 	objectVertices = oldObject.objectVertices;
 
-	//vb = VertexBuffer();
-	//va = VertexArray();
-	//ib = oldObject.ib;
-	//texture = oldObject.texture;
-	//shader = oldObject.shader;
-	//layout = oldObject.layout;
-
 	shaderFilePath = oldObject.shaderFilePath;
 
 	layout.Push<float>(2);

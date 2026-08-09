@@ -37,6 +37,7 @@ namespace RutherfordScattering {
 		void SetAngle(float newAngle);
 		float GetAngle();
 
+		void SetSourceSpread(float newSourceSpread) { _sourceSpread = newSourceSpread; }
 		float GetSourceSpread() { return _sourceSpread; }
 
 		void Draw(glm::mat4& VPMatrix, Renderer& renderer) override;

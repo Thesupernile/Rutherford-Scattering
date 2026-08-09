@@ -126,6 +126,7 @@ int main(void)
             ImGui::Text("\nAlpha Source:");
             ImGui::SliderFloat2("Alpha Source Position", &pSimConstants->alphaSourcePos.x, 0, 500);
             ImGui::SliderFloat("Alpha Source Rotation", &pSimConstants->alphaSourceAngle, 0, 360);
+            ImGui::SliderFloat("Alpha Source Spread", &pSimConstants->alphaSourceSpread, 1, 15);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
