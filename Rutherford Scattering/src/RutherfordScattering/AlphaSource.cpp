@@ -75,12 +75,12 @@ void RutherfordScattering::AlphaSource::IncrementFrame()
 
 }
 
-void RutherfordScattering::AlphaSource::SetEmissionRate(int newEmissionRate)
+void RutherfordScattering::AlphaSource::SetEmissionRate(float newEmissionRate)
 {
 	_emissionRate = newEmissionRate;
 }
 
-int RutherfordScattering::AlphaSource::GetEmissionRate()
+float RutherfordScattering::AlphaSource::GetEmissionRate()
 {
 	return _emissionRate;
 }

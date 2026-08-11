@@ -6,7 +6,7 @@ namespace RutherfordScattering {
 	private:
 		float _gapWidth;		// Width of the opening in the source (affets emission rate)
 		float _sourceSpread;	// The range of angles a particle can be emitted at
-		int _emissionRate;		// How many alpha particles the source emits per second
+		float _emissionRate;	// How many alpha particles the source emits per second
 
 		VertexBuffer vb;
 		VertexArray va;
@@ -31,8 +31,8 @@ namespace RutherfordScattering {
 
 		void IncrementFrame() override;
 
-		void SetEmissionRate(int newEmissionRate);
-		int GetEmissionRate();
+		void SetEmissionRate(float newEmissionRate);
+		float GetEmissionRate();
 
 		void SetAngle(float newAngle);
 		float GetAngle();

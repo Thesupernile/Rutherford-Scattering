@@ -1,4 +1,5 @@
 #include "Simulation.h"
+#include <cmath>
 
 void RutherfordScattering::Simulation::CreateFoil()
 {
@@ -27,8 +28,19 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 		// Angles are converted from degrees to radians for better usability
 		alphasource.SetAngle(constants.alphaSourceAngle/360 * (2 * PI));
 		alphasource.SetSourceSpread(constants.alphaSourceSpread / 360 * (2 * PI));
+		
+		alphasource.SetEmissionRate(constants.alphaSourceEmissionRate);
 
-		for (int i = 0; i < alphasource.GetEmissionRate(); i++) {
+		float numParticlesToGenerate;
+		float fractionalnumParticlesToGenerate = std::modf(alphasource.GetEmissionRate(), &numParticlesToGenerate);
+
+		int inverse = 1 / fractionalnumParticlesToGenerate;
+		// Deal with fractional component as a probablility (probablility rounded)
+		if ((rand() % inverse) == 0) {
+			numParticlesToGenerate++;
+		}
+
+		for (int i = 0; i < numParticlesToGenerate; i++) {
 
 			unsigned int endOfList = _particles.size();
 			_particles.emplace_back(numProtons, numNucleons, constants);
