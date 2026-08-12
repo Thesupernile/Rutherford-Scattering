@@ -1,5 +1,4 @@
 #include "Simulation.h"
-#include <cmath>
 
 void RutherfordScattering::Simulation::CreateFoil()
 {
@@ -91,17 +90,38 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 	}
 }
 
-void RutherfordScattering::Simulation::ProcessElectrostaticForces()
-{
-	for (auto& particle1 : _particles) {
-		if (!particle1.IsPersistent()) {
+void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
+	while (currentParticle < _particles.size()) {
+		std::list<Particle>::iterator particle1 = particleIterator;
+		std::advance(particleIterator, 1);
+		currentParticle++;
+
+		if (!particle1->IsPersistent()) {
 			for (auto& particle2 : _particles) {
 				// Persistent particles make up the foil (other particles excluded for performance reasons)
 				if (particle2.IsPersistent()) {
-					particle1.ProcessElectromagneticForces(particle2.GetPos(), particle2.GetCharge());
+					particle1->ProcessElectromagneticForces(particle2.GetPos(), particle2.GetCharge());
 				}
 			}
 		}
+	}
+}
+
+void RutherfordScattering::Simulation::ProcessElectrostaticForces()
+{
+	std::vector<std::thread> threads;
+	currentParticle = 0;
+	particleIterator = _particles.begin();
+
+	for (int i = 0; i < constants.maxNumThreads; i++) {
+		if (currentParticle < _particles.size()) {
+			threads.push_back(std::thread(&RutherfordScattering::Simulation::ProcessParticleForcesOneThread, this));
+			currentParticle++;
+		}
+	}
+
+	for (auto& thread : threads) {
+		thread.join();
 	}
 }
 

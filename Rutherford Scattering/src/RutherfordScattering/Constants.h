@@ -30,6 +30,7 @@ namespace RutherfordScattering {
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
 		float simulationTimeFactor = 3e-7f;
+		int maxNumThreads = 8;
 
 		int defaultParticleTTL = 300;
 

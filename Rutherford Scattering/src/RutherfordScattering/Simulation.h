@@ -4,10 +4,16 @@
 #include "AlphaSource.h"
 
 #include <vector>
+#include <cmath>
+#include <thread>
+#include <iostream>
+#include <mutex>
 
 namespace RutherfordScattering {
 	static class Simulation {
 	private:
+		int currentParticle = 0;
+		std::list<Particle>::iterator particleIterator;
 		float PI = 3.141592;
 		std::vector<AlphaSource> _alphaSources = std::vector<AlphaSource>();
 		std::list<Particle> _particles = std::list<Particle>();
@@ -18,6 +24,8 @@ namespace RutherfordScattering {
 
 		void ProcessAlphaEmissions();
 		void ProcessParticleMovement();
+
+		void ProcessParticleForcesOneThread();
 		void ProcessElectrostaticForces();
 	public:
 		Simulation();
