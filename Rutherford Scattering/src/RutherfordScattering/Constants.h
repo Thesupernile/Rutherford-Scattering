@@ -3,6 +3,7 @@
 // Include glm
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include <thread>
 
 namespace RutherfordScattering {
 	struct Constants {
@@ -30,7 +31,7 @@ namespace RutherfordScattering {
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
 		float simulationTimeFactor = 3e-7f;
-		int maxNumThreads = 8;
+		int maxNumThreads = std::thread::hardware_concurrency();;
 
 		int defaultParticleTTL = 300;
 

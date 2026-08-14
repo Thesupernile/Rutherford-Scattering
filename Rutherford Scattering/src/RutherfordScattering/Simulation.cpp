@@ -92,9 +92,14 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 
 void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
 	while (currentParticle < _particles.size()) {
+		// Locking needs to be added here
+		particleMutex->lock();
 		std::list<Particle>::iterator particle1 = particleIterator;
-		std::advance(particleIterator, 1);
+		if (currentParticle != _particles.size() - 1) {
+			std::advance(particleIterator, 1);
+		}
 		currentParticle++;
+		particleMutex->unlock();
 
 		if (!particle1->IsPersistent()) {
 			for (auto& particle2 : _particles) {
@@ -132,13 +137,15 @@ RutherfordScattering::Simulation::Simulation()
 	constants.nucleonMass = 1.67e-27;
 	constants.atomicRadiusMultiplier = 1e5;
 
+	particleMutex = new std::mutex();
+
 	CreateFoil();
 	CreateAlphaSources();
 }
 
 RutherfordScattering::Simulation::~Simulation()
 {
-
+	delete particleMutex;
 }
 
 void RutherfordScattering::Simulation::ProcessSimulationFrame()

@@ -14,6 +14,8 @@ namespace RutherfordScattering {
 	private:
 		int currentParticle = 0;
 		std::list<Particle>::iterator particleIterator;
+		std::mutex* particleMutex;
+
 		float PI = 3.141592;
 		std::vector<AlphaSource> _alphaSources = std::vector<AlphaSource>();
 		std::list<Particle> _particles = std::list<Particle>();
