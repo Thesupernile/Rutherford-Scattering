@@ -129,6 +129,9 @@ int main(void)
             ImGui::SliderFloat("Alpha Source Spread", &pSimConstants->alphaSourceSpread, 1, 15);
             ImGui::SliderFloat("Alpha Source Emission Rate", &pSimConstants->alphaSourceEmissionRate, 0.1, 3);
 
+            ImGui::Text("\nPerformance:");
+            ImGui::SliderInt("NumCoresToUse\n(0 uses no multithreading)", &pSimConstants->maxNumThreads, 0, std::thread::hardware_concurrency());
+            ImGui::Text("Utilising more threads increases performance with many particles");
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
 

@@ -5,7 +5,7 @@ void RutherfordScattering::Simulation::CreateFoil()
 	for (unsigned int i = 0; i < constants.foilWidth; i++) {
 		for (unsigned int j = 0; j < constants.foilLength; j++) {
 			_particles.emplace_back(Particle(40, 150, constants));
-			_particles.back().SetPos(glm::vec3({10 * i + 600, 10 * j, 0}));
+			_particles.back().SetPos(glm::vec3({10 * i + 400, 10 * j, 0}));
 		}
 	}
 }
@@ -93,12 +93,13 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
 	while (currentParticle < _particles.size()) {
 		// Locking needs to be added here
+		currentParticle++;
 		particleMutex->lock();
 		std::list<Particle>::iterator particle1 = particleIterator;
+		// Advance for the next loop if not at the end
 		if (currentParticle != _particles.size() - 1) {
 			std::advance(particleIterator, 1);
 		}
-		currentParticle++;
 		particleMutex->unlock();
 
 		if (!particle1->IsPersistent()) {
@@ -110,6 +111,7 @@ void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
 			}
 		}
 	}
+	currentParticle = currentParticle;
 }
 
 void RutherfordScattering::Simulation::ProcessElectrostaticForces()
@@ -118,15 +120,17 @@ void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 	currentParticle = 0;
 	particleIterator = _particles.begin();
 
-	for (int i = 0; i < constants.maxNumThreads; i++) {
-		if (currentParticle < _particles.size()) {
+	if (constants.maxNumThreads > 0) {
+		for (int i = 0; i < constants.maxNumThreads; i++) {
 			threads.push_back(std::thread(&RutherfordScattering::Simulation::ProcessParticleForcesOneThread, this));
-			currentParticle++;
+		}
+
+		for (auto& thread : threads) {
+			thread.join();
 		}
 	}
-
-	for (auto& thread : threads) {
-		thread.join();
+	else {
+		ProcessParticleForcesOneThread();
 	}
 }
 

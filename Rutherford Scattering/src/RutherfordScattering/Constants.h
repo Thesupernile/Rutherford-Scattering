@@ -25,13 +25,13 @@ namespace RutherfordScattering {
 		// Alpha Source Constants
 		glm::vec3 alphaSourcePos = glm::vec3({0, 350, 0});
 		float alphaSourceAngle = 0;
-		float alphaSourceSpread = 5;
-		float alphaSourceEmissionRate = 0.2;
+		float alphaSourceSpread = 2;
+		float alphaSourceEmissionRate = 0.5;
 
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
 		float simulationTimeFactor = 3e-7f;
-		int maxNumThreads = std::thread::hardware_concurrency();;
+		int maxNumThreads = std::thread::hardware_concurrency();
 
 		int defaultParticleTTL = 300;
 
