@@ -91,27 +91,35 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 }
 
 void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
-	while (currentParticle < _particles.size()) {
-		// Locking needs to be added here
-		currentParticle++;
+	bool proceedLoop = true;
+	while (proceedLoop) {
+		std::list<Particle>::iterator particle1;
 		particleMutex->lock();
-		std::list<Particle>::iterator particle1 = particleIterator;
-		// Advance for the next loop if not at the end
-		if (currentParticle != _particles.size() - 1) {
-			std::advance(particleIterator, 1);
-		}
-		particleMutex->unlock();
+		if (currentParticle < _particles.size()) {
+			// Handles incrementing for next thread to reach this position
+			currentParticle++;
+			particle1 = particleIterator;
+			// Advance for the next loop if not at the end
+			if (currentParticle < _particles.size() - 1) {
+				std::advance(particleIterator, 1);
+			}
+			particleMutex->unlock();
 
-		if (!particle1->IsPersistent()) {
-			for (auto& particle2 : _particles) {
-				// Persistent particles make up the foil (other particles excluded for performance reasons)
-				if (particle2.IsPersistent()) {
-					particle1->ProcessElectromagneticForces(particle2.GetPos(), particle2.GetCharge());
+			// Handles electrostatic forces processing loop
+			if (!particle1->IsPersistent()) {
+				for (auto& particle2 : _particles) {
+					// Persistent particles make up the foil (other particles excluded for performance reasons)
+					if (particle2.IsPersistent()) {
+						particle1->ProcessElectromagneticForces(particle2.GetPos(), particle2.GetCharge());
+					}
 				}
 			}
 		}
+		else {
+			particleMutex->unlock();
+			proceedLoop = false;
+		}
 	}
-	currentParticle = currentParticle;
 }
 
 void RutherfordScattering::Simulation::ProcessElectrostaticForces()
