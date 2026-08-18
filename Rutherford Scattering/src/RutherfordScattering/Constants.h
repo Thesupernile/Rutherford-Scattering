@@ -10,9 +10,9 @@ namespace RutherfordScattering {
 		// Universal Constants
 		float PI = 3.141592;
 		float permitivityOfFreeSpace = 8.85e-12;
-		float hydrogenRadius;
-		float nucleonMass;
-		float atomicRadiusMultiplier;
+		float hydrogenRadius = 1.2e-15;
+		float nucleonMass = 1.67e-27;
+		float atomicRadiusMultiplier = 1e5;
 		float protonCharge = 1.6e-19;
 
 		float GetElectrostaticConstant() { return 1 / (4 * PI * permitivityOfFreeSpace); }
@@ -30,10 +30,11 @@ namespace RutherfordScattering {
 
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
-		float simulationTimeFactor = 3e-7f;
+		float simulationTimeFactor = 1.5e-7f;
+		float expectedMilisecsPerFrame = 16.666667;		// This represents a standard framerate of 60fps
 		int maxNumThreads = std::thread::hardware_concurrency();
 
-		int defaultParticleTTL = 300;
+		int defaultParticleTTL = 120;
 
 		// Foil Constants
 		int foilWidth = 1;

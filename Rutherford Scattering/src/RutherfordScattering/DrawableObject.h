@@ -47,7 +47,7 @@ namespace RutherfordScattering {
 		~DrawableObject();
 		DrawableObject(const DrawableObject& oldObject);
 
-		virtual void IncrementFrame() = 0;
+		virtual void IncrementFrame(float delta) = 0;
 
 		void SetPos(glm::vec3 newPosition);
 		glm::vec3 GetPos();

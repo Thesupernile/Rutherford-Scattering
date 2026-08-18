@@ -16,7 +16,7 @@ void RutherfordScattering::Simulation::CreateAlphaSources()
 	_alphaSources[0].SetPos(glm::vec3({ 15, 350, 0 }));
 }
 
-void RutherfordScattering::Simulation::ProcessAlphaEmissions()
+void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 {
 	const int numProtons = constants.numProtonsPerAlpha;
 	const int numNucleons = constants.numNeutronsPerAlpha + numProtons;
@@ -30,8 +30,10 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 		
 		alphasource.SetEmissionRate(constants.alphaSourceEmissionRate);
 
+		float numParticlesToEmit = alphasource.GetEmissionRate() * (delta/constants.expectedMilisecsPerFrame);
+
 		float numParticlesToGenerate;
-		float fractionalnumParticlesToGenerate = std::modf(alphasource.GetEmissionRate(), &numParticlesToGenerate);
+		float fractionalnumParticlesToGenerate = std::modf(numParticlesToEmit, &numParticlesToGenerate);
 
 		int inverse = 1 / fractionalnumParticlesToGenerate;
 		// Deal with fractional component as a probablility (probablility rounded)
@@ -67,7 +69,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions()
 	}
 }
 
-void RutherfordScattering::Simulation::ProcessParticleMovement()
+void RutherfordScattering::Simulation::ProcessParticleMovement(float delta)
 {
 	std::vector<unsigned int> particlesToCull;
 	unsigned int i = 0;
@@ -77,7 +79,7 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 			particlesToCull.push_back(i);
 		}
 		else {
-			particle.IncrementFrame();
+			particle.IncrementFrame(delta);
 		}
 		i++;
 	}
@@ -90,7 +92,7 @@ void RutherfordScattering::Simulation::ProcessParticleMovement()
 	}
 }
 
-void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
+void RutherfordScattering::Simulation::ProcessParticleForcesOneThread(float delta) {
 	bool proceedLoop = true;
 	while (proceedLoop) {
 		std::list<Particle>::iterator particle1;
@@ -110,7 +112,7 @@ void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
 				for (auto& particle2 : _particles) {
 					// Persistent particles make up the foil (other particles excluded for performance reasons)
 					if (particle2.IsPersistent()) {
-						particle1->ProcessElectromagneticForces(particle2.GetPos(), particle2.GetCharge());
+						particle1->ProcessElectromagneticForces(particle2.GetPos(), particle2.GetCharge(), delta);
 					}
 				}
 			}
@@ -122,7 +124,7 @@ void RutherfordScattering::Simulation::ProcessParticleForcesOneThread() {
 	}
 }
 
-void RutherfordScattering::Simulation::ProcessElectrostaticForces()
+void RutherfordScattering::Simulation::ProcessElectrostaticForces(float delta)
 {
 	std::vector<std::thread> threads;
 	currentParticle = 0;
@@ -130,7 +132,7 @@ void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 
 	if (constants.maxNumThreads > 0) {
 		for (int i = 0; i < constants.maxNumThreads; i++) {
-			threads.push_back(std::thread(&RutherfordScattering::Simulation::ProcessParticleForcesOneThread, this));
+			threads.push_back(std::thread(&RutherfordScattering::Simulation::ProcessParticleForcesOneThread, this, delta));
 		}
 
 		for (auto& thread : threads) {
@@ -138,17 +140,12 @@ void RutherfordScattering::Simulation::ProcessElectrostaticForces()
 		}
 	}
 	else {
-		ProcessParticleForcesOneThread();
+		ProcessParticleForcesOneThread(delta);
 	}
 }
 
 RutherfordScattering::Simulation::Simulation()
 {
-	constants.permitivityOfFreeSpace = 8.12e-12;
-	constants.hydrogenRadius = 1.2e-15;
-	constants.nucleonMass = 1.67e-27;
-	constants.atomicRadiusMultiplier = 1e5;
-
 	particleMutex = new std::mutex();
 
 	CreateFoil();
@@ -160,11 +157,11 @@ RutherfordScattering::Simulation::~Simulation()
 	delete particleMutex;
 }
 
-void RutherfordScattering::Simulation::ProcessSimulationFrame()
+void RutherfordScattering::Simulation::ProcessSimulationFrame(float delta)
 {
-	ProcessAlphaEmissions();
-	ProcessParticleMovement();
-	ProcessElectrostaticForces();
+	ProcessAlphaEmissions(delta);
+	ProcessParticleMovement(delta);
+	ProcessElectrostaticForces(delta);
 }
 
 RutherfordScattering::Constants* RutherfordScattering::Simulation::GetConstantsPtr()

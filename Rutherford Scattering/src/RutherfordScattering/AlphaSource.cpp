@@ -70,7 +70,7 @@ RutherfordScattering::AlphaSource::AlphaSource(const AlphaSource& oldObject) :
 	SetTexture(textureFilePath, texture);
 }
 
-void RutherfordScattering::AlphaSource::IncrementFrame()
+void RutherfordScattering::AlphaSource::IncrementFrame(float delta)
 {
 
 }

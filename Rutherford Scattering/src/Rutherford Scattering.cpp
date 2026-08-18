@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <time.h>
 
 #include "Renderer.h"
 
@@ -105,7 +106,8 @@ int main(void)
             view = view * glm::translate(glm::mat4(1.0f), -cameraPos *cameraScaleFactor);
             glm::mat4 VP = proj * view;
 
-            sim.ProcessSimulationFrame();
+            float delta = 1000.0f / io.Framerate;
+            sim.ProcessSimulationFrame(delta);
             sim.DrawElements(VP, renderer);
 
             RutherfordScattering::Constants* pSimConstants = sim.GetConstantsPtr();
@@ -132,7 +134,7 @@ int main(void)
             ImGui::Text("\nPerformance:");
             ImGui::SliderInt("NumCoresToUse\n(0 uses no multithreading)", &pSimConstants->maxNumThreads, 0, std::thread::hardware_concurrency());
             ImGui::Text("Utilising more threads increases performance with many particles");
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", delta, io.Framerate);
             ImGui::End();
 
             ImGui::Render();

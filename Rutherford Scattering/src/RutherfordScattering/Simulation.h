@@ -24,17 +24,17 @@ namespace RutherfordScattering {
 		void CreateFoil();
 		void CreateAlphaSources();
 
-		void ProcessAlphaEmissions();
-		void ProcessParticleMovement();
+		void ProcessAlphaEmissions(float delta);
+		void ProcessParticleMovement(float delta);
 
-		void ProcessParticleForcesOneThread();
-		void ProcessElectrostaticForces();
+		void ProcessParticleForcesOneThread(float delta);
+		void ProcessElectrostaticForces(float delta);
 	public:
 		Simulation();
 		~Simulation();
 
 
-		void ProcessSimulationFrame();
+		void ProcessSimulationFrame(float delta);
 		Constants* GetConstantsPtr();
 		void DrawElements(glm::mat4& VP, Renderer& renderer);
 	};

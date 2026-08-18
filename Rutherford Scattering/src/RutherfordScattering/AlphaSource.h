@@ -29,7 +29,7 @@ namespace RutherfordScattering {
 		~AlphaSource();
 		AlphaSource(const AlphaSource& oldObject);
 
-		void IncrementFrame() override;
+		void IncrementFrame(float delta) override;
 
 		void SetEmissionRate(float newEmissionRate);
 		float GetEmissionRate();

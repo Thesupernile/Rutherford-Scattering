@@ -40,8 +40,8 @@ namespace RutherfordScattering {
 		void CalculateCharge();
 		void DetermineColour();
 
-		glm::vec3 CalculateNewVelocity(const glm::vec3& currentPos, const glm::vec3& secondParticlePos, float secondParticleCharge);
-		glm::vec3 GetNewPosition(glm::vec3& velocity);
+		glm::vec3 CalculateNewVelocity(const glm::vec3& currentPos, const glm::vec3& secondParticlePos, float secondParticleCharge, float delta);
+		glm::vec3 GetNewPosition(glm::vec3& velocity, float delta);
 
 	public:
 		static unsigned int particleCount;
@@ -54,7 +54,7 @@ namespace RutherfordScattering {
 		static void GenerateParticleVertexes();
 		static void GenerateParticleIndexes();
 
-		void IncrementFrame() override;
+		void IncrementFrame(float delta) override;
 
 		bool IsPersistent() { return _isPersistent; }
 		void SetPersistent(bool isPersist) { _isPersistent = isPersist; }
@@ -71,7 +71,7 @@ namespace RutherfordScattering {
 
 		float GetCharge() { return _charge; }
 
-		void ProcessElectromagneticForces(const glm::vec3& secondParticlePos, float particleCharge);
+		void ProcessElectromagneticForces(const glm::vec3& secondParticlePos, float particleCharge, float delta);
 
 		void Draw(glm::mat4& VPMatrix, Renderer& renderer) override;
 	};
