@@ -125,6 +125,10 @@ int main(void)
             ImGui::Text("\nSimulation:");
             ImGui::SliderFloat("Proton Charge", &pSimConstants->protonCharge, 1.6e-20, 1.6e-18, "%e");
 
+            ImGui::Text("\nAlpha Particles:");
+            ImGui::SliderInt("Num Protons", &pSimConstants->numProtonsPerAlpha, 1, 100);
+            ImGui::SliderInt("Num Neutrons", &pSimConstants->numNeutronsPerAlpha, 0, 150);
+
             ImGui::Text("\nAlpha Source:");
             ImGui::SliderFloat2("Alpha Source Position", &pSimConstants->alphaSourcePos.x, 0, 500);
             ImGui::SliderFloat("Alpha Source Rotation", &pSimConstants->alphaSourceAngle, 0, 360);
