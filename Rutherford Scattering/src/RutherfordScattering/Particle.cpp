@@ -72,6 +72,9 @@ void RutherfordScattering::Particle::CalculateScale()
 void RutherfordScattering::Particle::CalculateCharge()
 {
     _charge = _constants.protonCharge * _protonNumber;
+    if (_constants.flipParticleCharge && IsPersistent()) {
+        _charge = -_charge;
+    }
 }
 
 void RutherfordScattering::Particle::DetermineColour()

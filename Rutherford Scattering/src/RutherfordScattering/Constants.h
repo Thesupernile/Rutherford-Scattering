@@ -20,6 +20,7 @@ namespace RutherfordScattering {
 		// Alpha Particle Constants
 		int numProtonsPerAlpha = 2;
 		int numNeutronsPerAlpha = 2;
+		bool flipParticleCharge = false;
 		float alphaParticleInitialSpeed = 1.5e7f;
 
 		// Alpha Source Constants

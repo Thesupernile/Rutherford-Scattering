@@ -126,8 +126,9 @@ int main(void)
             ImGui::SliderFloat("Proton Charge", &pSimConstants->protonCharge, 1.6e-20, 1.6e-18, "%e");
 
             ImGui::Text("\nAlpha Particles:");
-            ImGui::SliderInt("Num Protons", &pSimConstants->numProtonsPerAlpha, 1, 100);
+            ImGui::SliderInt("Num Protons", &pSimConstants->numProtonsPerAlpha, 0, 100);
             ImGui::SliderInt("Num Neutrons", &pSimConstants->numNeutronsPerAlpha, 0, 150);
+            ImGui::Checkbox("Flip Alpha Charge (converts charge to -Num Protons)", &pSimConstants->flipParticleCharge);
 
             ImGui::Text("\nAlpha Source:");
             ImGui::SliderFloat2("Alpha Source Position", &pSimConstants->alphaSourcePos.x, 0, 500);
