@@ -35,6 +35,8 @@ namespace RutherfordScattering {
 
 
 		void ProcessSimulationFrame(float delta);
+		void ResetSim();
+		void ResetConstants();
 		Constants* GetConstantsPtr();
 		void DrawElements(glm::mat4& VP, Renderer& renderer);
 	};

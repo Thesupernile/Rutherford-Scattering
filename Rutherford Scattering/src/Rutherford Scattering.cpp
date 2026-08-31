@@ -123,9 +123,11 @@ int main(void)
             ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1.0f/10.0f, 100);
 
             ImGui::Text("\nSimulation:");
+            ImGui::SliderFloat("Permitivity Of Free Space", &pSimConstants->permitivityOfFreeSpace, 10e-13, 10e-11, "%e");
             ImGui::SliderFloat("Proton Charge", &pSimConstants->protonCharge, 1.6e-20, 1.6e-18, "%e");
 
             ImGui::Text("\nAlpha Particles:");
+            ImGui::SliderFloat("Emission Speed", &pSimConstants->alphaParticleInitialSpeed, 1.5e6f, 1.5e8f, "%e");
             ImGui::SliderInt("Num Protons", &pSimConstants->numProtonsPerAlpha, 0, 100);
             ImGui::SliderInt("Num Neutrons", &pSimConstants->numNeutronsPerAlpha, 0, 150);
             ImGui::Checkbox("Flip Alpha Charge (converts charge to -Num Protons)", &pSimConstants->flipParticleCharge);
@@ -139,11 +141,24 @@ int main(void)
             ImGui::Text("\nPerformance:");
             ImGui::SliderInt("NumCoresToUse\n(0 uses no multithreading)", &pSimConstants->maxNumThreads, 0, std::thread::hardware_concurrency());
             ImGui::Text("Utilising more threads increases performance with many particles");
+            ImGui::SliderInt("Particle TTL", &pSimConstants->defaultParticleTTL, 100, 1000);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", delta, io.Framerate);
+
+            ImGui::Text("\n");
+            bool resetSim = ImGui::Button("Reset sim");
+            bool resetConstants = ImGui::Button("Reset constants to defaults");
             ImGui::End();
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            if (resetSim) {
+                sim.ResetSim();
+            }
+            if (resetConstants) {
+                sim.ResetConstants();
+                pSimConstants = sim.GetConstantsPtr();
+            }
 
             // Swap front and back buffers
             glfwSwapBuffers(window);

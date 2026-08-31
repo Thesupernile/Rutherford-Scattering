@@ -85,9 +85,10 @@ void RutherfordScattering::Simulation::ProcessParticleMovement(float delta)
 	}
 
 	// TODO Refactor to avoid repetitive advancing through all the static particles
-	for (unsigned int index : particlesToCull) {
+
+	for (int i = particlesToCull.size() - 1; i >= 0; i--) {
 		std::list<Particle>::iterator iter = _particles.begin();
-		std::advance(iter, index);
+		std::advance(iter, particlesToCull[i]);
 		_particles.erase(iter);
 	}
 }
@@ -162,6 +163,18 @@ void RutherfordScattering::Simulation::ProcessSimulationFrame(float delta)
 	ProcessAlphaEmissions(delta);
 	ProcessParticleMovement(delta);
 	ProcessElectrostaticForces(delta);
+}
+
+void RutherfordScattering::Simulation::ResetSim()
+{
+	for (auto& particle : _particles) {
+		particle.SetTimeToLive(0);		// This will remove all non permanent particles
+	}
+}
+
+void RutherfordScattering::Simulation::ResetConstants()
+{
+	constants = Constants();
 }
 
 RutherfordScattering::Constants* RutherfordScattering::Simulation::GetConstantsPtr()
