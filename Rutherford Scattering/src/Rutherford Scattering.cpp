@@ -34,6 +34,7 @@ int main(void)
     const float PI = 3.141592;
     const float WINDOW_SCALE_FACTOR = 1;
     float cameraScaleFactor = 1;
+    float cameraMoveSpeed = 10;
 
     const float WINDOW_WIDTH = 1280;
     const float WINDOW_HEIGHT = 720;
@@ -102,8 +103,8 @@ int main(void)
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            view = glm::scale(glm::mat4(1.0f), glm::vec3(cameraScaleFactor));
-            view = view * glm::translate(glm::mat4(1.0f), -cameraPos *cameraScaleFactor);
+            view = glm::scale(glm::mat4(1), glm::vec3(cameraScaleFactor));
+            view = glm::translate(view, -cameraPos * cameraScaleFactor);
             glm::mat4 VP = proj * view;
 
             float delta = 1000.0f / io.Framerate;
@@ -119,8 +120,26 @@ int main(void)
             ImGui::Begin("Control Pannel");
 
             ImGui::Text("Camera:");
-            ImGui::SliderFloat2("Camera Position", &cameraPos.x, -WINDOW_WIDTH, WINDOW_WIDTH);
-            ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1.0f/10.0f, 100);
+            ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1, 10);
+            bool resetZoom = ImGui::Button("Reset zoom");
+            cameraScaleFactor += ImGui::GetIO().MouseWheel / 10;
+            if (cameraScaleFactor < 1.0) { cameraScaleFactor = 1.0; };
+            if (cameraScaleFactor > 5.0) { cameraScaleFactor = 5.0; };
+            if (resetZoom) { cameraScaleFactor = 1; }
+
+            // Handle camera movements
+            if (ImGui::IsKeyPressed(ImGuiKey_W)) {
+                cameraPos.y += cameraMoveSpeed / cameraScaleFactor;
+            }
+            if (ImGui::IsKeyPressed(ImGuiKey_S)) {
+                cameraPos.y -= cameraMoveSpeed / cameraScaleFactor;
+            }
+            if (ImGui::IsKeyPressed(ImGuiKey_A)) {
+                cameraPos.x -= cameraMoveSpeed / cameraScaleFactor;
+            }
+            if (ImGui::IsKeyPressed(ImGuiKey_D)) {
+                cameraPos.x += cameraMoveSpeed / cameraScaleFactor;
+            }
 
             ImGui::Text("\nSimulation:");
             ImGui::SliderFloat("Permitivity Of Free Space", &pSimConstants->permitivityOfFreeSpace, 10e-13, 10e-11, "%e");
