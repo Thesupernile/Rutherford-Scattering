@@ -12,14 +12,17 @@
 namespace RutherfordScattering {
 	static class Simulation {
 	private:
-		int currentParticle = 0;
-		std::list<Particle>::iterator particleIterator;
-		std::mutex* particleMutex;
+		int _currentParticle = 0;
+		int _numParticlesSimulated = 0;
+		int _numParticlesDeflected = 0;
+		int _numParticlesBackscattered = 0;
+		std::list<Particle>::iterator _particleIterator;
+		std::mutex* _particleMutex;
 
 		float PI = 3.141592;
 		std::vector<AlphaSource> _alphaSources = std::vector<AlphaSource>();
 		std::list<Particle> _particles = std::list<Particle>();
-		Constants constants;
+		Constants _constants;
 
 		void CreateFoil();
 		void CreateAlphaSources();
@@ -39,5 +42,8 @@ namespace RutherfordScattering {
 		void ResetConstants();
 		Constants* GetConstantsPtr();
 		void DrawElements(glm::mat4& VP, Renderer& renderer);
+
+		double GetPercentDeflected();
+		double GetPercentBackScatter();
 	};
 }

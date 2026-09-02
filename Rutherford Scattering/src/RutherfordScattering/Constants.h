@@ -26,7 +26,9 @@ namespace RutherfordScattering {
 		// Alpha Source Constants
 		glm::vec3 alphaSourcePos = glm::vec3({0, 350, 0});
 		float alphaSourceAngle = 0;
+		float alphaSourceAngleRads() { return (alphaSourceAngle / 360) * 2 * PI; }
 		float alphaSourceSpread = 2;
+		float alphaSourceSpreadRads() { return (alphaSourceSpread / 360) * 2 * PI; }
 		float alphaSourceEmissionRate = 0.5;
 
 		// Simulation Constants
@@ -40,5 +42,6 @@ namespace RutherfordScattering {
 		// Foil Constants
 		int foilWidth = 1;
 		int foilLength = 75;
+		glm::vec3 foilPos = glm::vec3({400, 0, 0});
 	};
 }

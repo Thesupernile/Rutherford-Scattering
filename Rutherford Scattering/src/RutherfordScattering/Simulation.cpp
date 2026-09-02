@@ -2,10 +2,10 @@
 
 void RutherfordScattering::Simulation::CreateFoil()
 {
-	for (unsigned int i = 0; i < constants.foilWidth; i++) {
-		for (unsigned int j = 0; j < constants.foilLength; j++) {
-			_particles.emplace_back(Particle(40, 150, constants));
-			_particles.back().SetPos(glm::vec3({10 * i + 400, 10 * j, 0}));
+	for (unsigned int i = 0; i < _constants.foilWidth; i++) {
+		for (unsigned int j = 0; j < _constants.foilLength; j++) {
+			_particles.emplace_back(Particle(40, 150, _constants));
+			_particles.back().SetPos(glm::vec3({10 * i + _constants.foilPos.x, 10 * j, 0}));
 		}
 	}
 }
@@ -18,19 +18,19 @@ void RutherfordScattering::Simulation::CreateAlphaSources()
 
 void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 {
-	const int numProtons = constants.numProtonsPerAlpha;
-	const int numNucleons = constants.numNeutronsPerAlpha + numProtons;
-	const int alphaParticleSpeed = constants.alphaParticleInitialSpeed;
+	const int numProtons = _constants.numProtonsPerAlpha;
+	const int numNucleons = _constants.numNeutronsPerAlpha + numProtons;
+	const int alphaParticleSpeed = _constants.alphaParticleInitialSpeed;
 
 	for (auto& alphasource : _alphaSources) {
-		alphasource.SetPos(glm::vec3({ constants.alphaSourcePos.x, constants.alphaSourcePos.y, 0 }));
+		alphasource.SetPos(glm::vec3({ _constants.alphaSourcePos.x, _constants.alphaSourcePos.y, 0 }));
 		// Angles are converted from degrees to radians for better usability
-		alphasource.SetAngle(constants.alphaSourceAngle/360 * (2 * PI));
-		alphasource.SetSourceSpread(constants.alphaSourceSpread / 360 * (2 * PI));
+		alphasource.SetAngle(_constants.alphaSourceAngle/360 * (2 * PI));
+		alphasource.SetSourceSpread(_constants.alphaSourceSpread / 360 * (2 * PI));
 		
-		alphasource.SetEmissionRate(constants.alphaSourceEmissionRate);
+		alphasource.SetEmissionRate(_constants.alphaSourceEmissionRate);
 
-		float numParticlesToEmit = alphasource.GetEmissionRate() * (delta/constants.expectedMilisecsPerFrame);
+		float numParticlesToEmit = alphasource.GetEmissionRate() * (delta/_constants.expectedMilisecsPerFrame);
 
 		float numParticlesToGenerate;
 		float fractionalnumParticlesToGenerate = std::modf(numParticlesToEmit, &numParticlesToGenerate);
@@ -44,7 +44,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 		for (int i = 0; i < numParticlesToGenerate; i++) {
 
 			unsigned int endOfList = _particles.size();
-			_particles.emplace_back(numProtons, numNucleons, constants);
+			_particles.emplace_back(numProtons, numNucleons, _constants);
 
 			// Gets a random value between +- alphaSourceSpread to 4 decimal places (in radians)
 			float offsetAngle = 0;
@@ -63,7 +63,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 
 			_particles.back().SetPos(alphasource.GetPos() + glm::vec3({offsetX, offsetY, 0}));
 			_particles.back().SetVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
-			_particles.back().SetTimeToLive(constants.defaultParticleTTL);
+			_particles.back().SetTimeToLive(_constants.defaultParticleTTL);
 			_particles.back().SetPersistent(false);
 		}
 	}
@@ -89,6 +89,22 @@ void RutherfordScattering::Simulation::ProcessParticleMovement(float delta)
 	for (int i = particlesToCull.size() - 1; i >= 0; i--) {
 		std::list<Particle>::iterator iter = _particles.begin();
 		std::advance(iter, particlesToCull[i]);
+		glm::vec3 finalParticlePos = iter->GetPos();
+
+		// Process counting of particles
+		float travelledY = finalParticlePos.y - _constants.alphaSourcePos.y;
+		float travelledX = finalParticlePos.x - _constants.alphaSourcePos.x;
+		float maxEmssionAngle = _constants.alphaSourceAngleRads() + _constants.alphaSourceSpreadRads();
+		float minEmissionAngle = _constants.alphaSourceAngleRads() - _constants.alphaSourceSpreadRads();
+
+		_numParticlesSimulated++;
+		if (finalParticlePos.x < _constants.foilPos.x) {
+			_numParticlesBackscattered++;
+		}
+		else if (travelledY > sin(maxEmssionAngle) * travelledX || travelledY < sin(minEmissionAngle) * travelledX) {
+			_numParticlesDeflected++;
+		}
+
 		_particles.erase(iter);
 	}
 }
@@ -97,16 +113,16 @@ void RutherfordScattering::Simulation::ProcessParticleForcesOneThread(float delt
 	bool proceedLoop = true;
 	while (proceedLoop) {
 		std::list<Particle>::iterator particle1;
-		particleMutex->lock();
-		if (currentParticle < _particles.size()) {
+		_particleMutex->lock();
+		if (_currentParticle < _particles.size()) {
 			// Handles incrementing for next thread to reach this position
-			currentParticle++;
-			particle1 = particleIterator;
+			_currentParticle++;
+			particle1 = _particleIterator;
 			// Advance for the next loop if not at the end
-			if (currentParticle < _particles.size() - 1) {
-				std::advance(particleIterator, 1);
+			if (_currentParticle < _particles.size() - 1) {
+				std::advance(_particleIterator, 1);
 			}
-			particleMutex->unlock();
+			_particleMutex->unlock();
 
 			// Handles electrostatic forces processing loop
 			if (!particle1->IsPersistent()) {
@@ -119,7 +135,7 @@ void RutherfordScattering::Simulation::ProcessParticleForcesOneThread(float delt
 			}
 		}
 		else {
-			particleMutex->unlock();
+			_particleMutex->unlock();
 			proceedLoop = false;
 		}
 	}
@@ -128,11 +144,11 @@ void RutherfordScattering::Simulation::ProcessParticleForcesOneThread(float delt
 void RutherfordScattering::Simulation::ProcessElectrostaticForces(float delta)
 {
 	std::vector<std::thread> threads;
-	currentParticle = 0;
-	particleIterator = _particles.begin();
+	_currentParticle = 0;
+	_particleIterator = _particles.begin();
 
-	if (constants.maxNumThreads > 0) {
-		for (int i = 0; i < constants.maxNumThreads; i++) {
+	if (_constants.maxNumThreads > 0) {
+		for (int i = 0; i < _constants.maxNumThreads; i++) {
 			threads.push_back(std::thread(&RutherfordScattering::Simulation::ProcessParticleForcesOneThread, this, delta));
 		}
 
@@ -147,7 +163,7 @@ void RutherfordScattering::Simulation::ProcessElectrostaticForces(float delta)
 
 RutherfordScattering::Simulation::Simulation()
 {
-	particleMutex = new std::mutex();
+	_particleMutex = new std::mutex();
 
 	CreateFoil();
 	CreateAlphaSources();
@@ -155,7 +171,7 @@ RutherfordScattering::Simulation::Simulation()
 
 RutherfordScattering::Simulation::~Simulation()
 {
-	delete particleMutex;
+	delete _particleMutex;
 }
 
 void RutherfordScattering::Simulation::ProcessSimulationFrame(float delta)
@@ -167,6 +183,10 @@ void RutherfordScattering::Simulation::ProcessSimulationFrame(float delta)
 
 void RutherfordScattering::Simulation::ResetSim()
 {
+	_numParticlesSimulated = 0;
+	_numParticlesDeflected = 0;
+	_numParticlesBackscattered = 0;
+
 	for (auto& particle : _particles) {
 		particle.SetTimeToLive(0);		// This will remove all non permanent particles
 	}
@@ -174,12 +194,12 @@ void RutherfordScattering::Simulation::ResetSim()
 
 void RutherfordScattering::Simulation::ResetConstants()
 {
-	constants = Constants();
+	_constants = Constants();
 }
 
 RutherfordScattering::Constants* RutherfordScattering::Simulation::GetConstantsPtr()
 {
-	return &constants;
+	return &_constants;
 }
 
 void RutherfordScattering::Simulation::DrawElements(glm::mat4& VP, Renderer& renderer)
@@ -191,3 +211,16 @@ void RutherfordScattering::Simulation::DrawElements(glm::mat4& VP, Renderer& ren
 		alphasource.Draw(VP, renderer);
 	}
 }
+
+double RutherfordScattering::Simulation::GetPercentDeflected()
+{
+	if (_numParticlesSimulated == 0) { return 0.0; }
+	return ((double)_numParticlesDeflected/_numParticlesSimulated) * 100;
+}
+
+double RutherfordScattering::Simulation::GetPercentBackScatter()
+{
+	if (_numParticlesSimulated == 0) { return 0.0; }
+	return ((double)_numParticlesBackscattered / _numParticlesSimulated) * 100;
+}
+

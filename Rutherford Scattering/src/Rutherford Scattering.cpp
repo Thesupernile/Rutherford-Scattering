@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <time.h>
+#include <format>
 
 #include "Renderer.h"
 
@@ -140,6 +141,11 @@ int main(void)
             if (ImGui::IsKeyPressed(ImGuiKey_D)) {
                 cameraPos.x += cameraMoveSpeed / cameraScaleFactor;
             }
+
+            ImGui::Text("\nResults:");
+            ImGui::Text("Deflection: %.3f percent", sim.GetPercentDeflected());
+            ImGui::Text("Backscattering: %.3f percent", sim.GetPercentBackScatter());
+            ImGui::Text("Unaffected: %.3f percent", 100 - sim.GetPercentDeflected() - sim.GetPercentBackScatter());
 
             ImGui::Text("\nSimulation:");
             ImGui::SliderFloat("Permitivity Of Free Space", &pSimConstants->permitivityOfFreeSpace, 10e-13, 10e-11, "%e");
