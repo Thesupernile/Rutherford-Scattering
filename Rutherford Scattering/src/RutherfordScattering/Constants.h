@@ -27,7 +27,7 @@ namespace RutherfordScattering {
 		glm::vec3 alphaSourcePos = glm::vec3({0, 350, 0});
 		float alphaSourceAngle = 0;
 		float alphaSourceAngleRads() { return (alphaSourceAngle / 360) * 2 * PI; }
-		float alphaSourceSpread = 2;
+		float alphaSourceSpread = 1;
 		float alphaSourceSpreadRads() { return (alphaSourceSpread / 360) * 2 * PI; }
 		float alphaSourceEmissionRate = 0.5;
 

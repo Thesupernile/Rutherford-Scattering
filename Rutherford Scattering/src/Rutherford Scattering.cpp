@@ -121,7 +121,7 @@ int main(void)
             ImGui::Begin("Control Pannel");
 
             ImGui::Text("Camera:");
-            ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1, 10);
+            ImGui::SliderFloat("Zoom Level", &cameraScaleFactor, 1, 5);
             bool resetZoom = ImGui::Button("Reset zoom");
             cameraScaleFactor += ImGui::GetIO().MouseWheel / 10;
             if (cameraScaleFactor < 1.0) { cameraScaleFactor = 1.0; };
