@@ -37,11 +37,13 @@ namespace RutherfordScattering {
 		float expectedMilisecsPerFrame = 16.666667;		// This represents a standard framerate of 60fps
 		int maxNumThreads = std::thread::hardware_concurrency();
 
-		int defaultParticleTTL = 120;
+		int defaultParticleTTL = 140;
 
 		// Foil Constants
 		int foilWidth = 1;
 		int foilLength = 75;
+		int foilParticleProtons = 97;
+		int foilParticleNeutrons = 118;
 		glm::vec3 foilPos = glm::vec3({400, 0, 0});
 	};
 }

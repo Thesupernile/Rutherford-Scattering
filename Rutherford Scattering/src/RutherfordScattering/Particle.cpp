@@ -105,7 +105,7 @@ glm::vec3 RutherfordScattering::Particle::CalculateNewVelocity(const glm::vec3& 
     glm::vec3 force = (float)(_constants.GetElectrostaticConstant() * (secondParticleCharge * GetCharge() / particleDistanceSqrd)) * (relativeParticlePos / distance);
 
     glm::vec3 acceleration = force / (_nucleonNumber * _constants.nucleonMass);
-    float timeFactor = pow(_constants.simulationTimeFactor * (delta/_constants.expectedMilisecsPerFrame), 2);
+    float timeFactor = pow(_constants.simulationTimeFactor * delta/_constants.expectedMilisecsPerFrame, 2);
 
     return _velocity + acceleration * timeFactor;
 }

@@ -151,6 +151,12 @@ int main(void)
             ImGui::SliderFloat("Permitivity Of Free Space", &pSimConstants->permitivityOfFreeSpace, 10e-13, 10e-11, "%e");
             ImGui::SliderFloat("Proton Charge", &pSimConstants->protonCharge, 1.6e-20, 1.6e-18, "%e");
 
+            ImGui::Text("\n Foil:");
+            bool foilProtonsUpdated = ImGui::SliderInt("Number of Protons", &pSimConstants->foilParticleProtons, 1, 100);
+            bool foilNeutronsUpdated = ImGui::SliderInt("Number of Neutrons", &pSimConstants->foilParticleNeutrons, 0, 150);
+            if (foilProtonsUpdated || foilNeutronsUpdated) { 
+                sim.UpdateStaticParticles(); }
+
             ImGui::Text("\nAlpha Particles:");
             ImGui::SliderFloat("Emission Speed", &pSimConstants->alphaParticleInitialSpeed, 1.5e6f, 1.5e8f, "%e");
             ImGui::SliderInt("Num Protons", &pSimConstants->numProtonsPerAlpha, 0, 100);

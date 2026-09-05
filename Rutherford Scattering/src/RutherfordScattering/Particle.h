@@ -59,6 +59,7 @@ namespace RutherfordScattering {
 		bool IsPersistent() { return _isPersistent; }
 		void SetPersistent(bool isPersist) { _isPersistent = isPersist; }
 		void SetIsMovable(bool newValue);
+		void SetNucleons(int protonNum, int nucleonNum) { _protonNumber = protonNum; _nucleonNumber = nucleonNum; CalculateScale(); }
 		bool IsMovable();
 
 		int GetNuclearRadius();

@@ -166,6 +166,7 @@ RutherfordScattering::Simulation::Simulation()
 	_particleMutex = new std::mutex();
 
 	CreateFoil();
+	UpdateStaticParticles();
 	CreateAlphaSources();
 }
 
@@ -181,6 +182,17 @@ void RutherfordScattering::Simulation::ProcessSimulationFrame(float delta)
 	ProcessElectrostaticForces(delta);
 }
 
+void RutherfordScattering::Simulation::UpdateStaticParticles()
+{
+	int foilParticleNucleons = _constants.foilParticleNeutrons + _constants.foilParticleProtons;
+
+	for (auto& particle : _particles) {
+		if (particle.IsPersistent()) {
+			particle.SetNucleons(_constants.foilParticleProtons, foilParticleNucleons);
+		}
+	}
+}
+
 void RutherfordScattering::Simulation::ResetSim()
 {
 	_numParticlesSimulated = 0;
@@ -190,11 +202,13 @@ void RutherfordScattering::Simulation::ResetSim()
 	for (auto& particle : _particles) {
 		particle.SetTimeToLive(0);		// This will remove all non permanent particles
 	}
+	UpdateStaticParticles();
 }
 
 void RutherfordScattering::Simulation::ResetConstants()
 {
 	_constants = Constants();
+	UpdateStaticParticles();
 }
 
 RutherfordScattering::Constants* RutherfordScattering::Simulation::GetConstantsPtr()
