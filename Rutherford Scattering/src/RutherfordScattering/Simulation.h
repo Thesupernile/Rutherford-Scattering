@@ -39,6 +39,7 @@ namespace RutherfordScattering {
 
 		void ProcessSimulationFrame(float delta);
 		void UpdateStaticParticles();
+		void RepositionFoilParticles();
 		void ResetSim();
 		void ResetConstants();
 		Constants* GetConstantsPtr();

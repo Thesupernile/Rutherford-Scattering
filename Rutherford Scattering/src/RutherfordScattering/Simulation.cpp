@@ -191,18 +191,38 @@ void RutherfordScattering::Simulation::UpdateStaticParticles()
 			particle.SetNucleons(_constants.foilParticleProtons, foilParticleNucleons);
 		}
 	}
+
+	RepositionFoilParticles();
+}
+
+void RutherfordScattering::Simulation::RepositionFoilParticles()
+{
+	int particleCount = 0;
+	for (auto& particle : _particles) {
+		if (particle.IsPersistent()) {
+			int xIndex = particleCount / _constants.foilLength;
+			int yIndex = particleCount % _constants.foilLength;
+			int particleSize = particle.GetScale() * 2 * 1.25;
+
+			particle.SetPos(glm::vec3({ _constants.foilPos.x + (xIndex * particleSize), _constants.foilPos.y + (yIndex * particleSize), 0}));
+			particleCount++;
+		}
+
+		if (particleCount == _constants.foilLength * _constants.foilWidth) { break; }
+	}
 }
 
 void RutherfordScattering::Simulation::ResetSim()
 {
-	_numParticlesSimulated = 0;
-	_numParticlesDeflected = 0;
-	_numParticlesBackscattered = 0;
-
 	for (auto& particle : _particles) {
 		particle.SetTimeToLive(0);		// This will remove all non permanent particles
 	}
+	ProcessSimulationFrame(0);	// Necessary to actually remove the particles
 	UpdateStaticParticles();
+
+	_numParticlesSimulated = 0;
+	_numParticlesDeflected = 0;
+	_numParticlesBackscattered = 0;
 }
 
 void RutherfordScattering::Simulation::ResetConstants()

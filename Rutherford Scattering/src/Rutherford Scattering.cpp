@@ -176,7 +176,7 @@ int main(void)
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", delta, io.Framerate);
 
             ImGui::Text("\n");
-            bool resetSim = ImGui::Button("Reset sim");
+            bool resetSim = ImGui::Button("Restart sim");
             bool resetConstants = ImGui::Button("Reset constants to defaults");
             ImGui::End();
 
