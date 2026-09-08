@@ -154,7 +154,8 @@ int main(void)
             ImGui::Text("\n Foil:");
             bool foilProtonsUpdated = ImGui::SliderInt("Number of Protons", &pSimConstants->foilParticleProtons, 1, 100);
             bool foilNeutronsUpdated = ImGui::SliderInt("Number of Neutrons", &pSimConstants->foilParticleNeutrons, 0, 150);
-            if (foilProtonsUpdated || foilNeutronsUpdated) { 
+            bool isFoilMoved = ImGui::SliderFloat2("Foil Position", &pSimConstants->foilPos.x, -500, 500);
+            if (foilProtonsUpdated || foilNeutronsUpdated || isFoilMoved) { 
                 sim.UpdateStaticParticles(); }
 
             ImGui::Text("\nAlpha Particles:");
