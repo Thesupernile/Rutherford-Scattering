@@ -33,11 +33,11 @@ namespace RutherfordScattering {
 
 		// Simulation Constants
 		float simulationScaleFactor = 7e9f;
-		float simulationTimeFactor = 1.5e-7f;
+		float simulationTimeFactor = 1.5e-17f;
 		float expectedMilisecsPerFrame = 16.666667;		// This represents a standard framerate of 60fps
 		int maxNumThreads = std::thread::hardware_concurrency();
 
-		int defaultParticleTTL = 140;
+		int defaultParticleTTL = 120;
 
 		// Foil Constants
 		int foilWidth = 1;

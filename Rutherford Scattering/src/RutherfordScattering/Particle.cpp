@@ -100,19 +100,30 @@ glm::vec3 RutherfordScattering::Particle::CalculateNewVelocity(const glm::vec3& 
     glm::vec3 relativeParticlePos = currentPos - secondParticlePos;
     relativeParticlePos = relativeParticlePos / _constants.simulationScaleFactor;
 
-    float particleDistanceSqrd = pow(relativeParticlePos.x, 2) + pow(relativeParticlePos.y, 2) + pow(relativeParticlePos.z, 2);
-    float distance = sqrt(particleDistanceSqrd);
-    glm::vec3 force = (float)(_constants.GetElectrostaticConstant() * (secondParticleCharge * GetCharge() / particleDistanceSqrd)) * (relativeParticlePos / distance);
+    float particleDistanceSqrd = glm::dot(relativeParticlePos, relativeParticlePos);
 
-    glm::vec3 acceleration = force / (_nucleonNumber * _constants.nucleonMass);
-    float timeFactor = pow(_constants.simulationTimeFactor * delta/_constants.expectedMilisecsPerFrame, 2);
+    constexpr float minDistance = 1e-30f;
+    particleDistanceSqrd = std::max(particleDistanceSqrd, minDistance);
+
+    float distance = std::sqrt(particleDistanceSqrd);
+    float forceMag = _constants.GetElectrostaticConstant() * (secondParticleCharge * GetCharge()) / particleDistanceSqrd;
+    glm::vec3 force = forceMag * (relativeParticlePos / distance);
+
+    float particleMass = _nucleonNumber * _constants.nucleonMass;
+    glm::vec3 acceleration = force / particleMass;
+
+    float timeFactor = (delta/_constants.expectedMilisecsPerFrame) * _constants.simulationTimeFactor;
 
     return _velocity + acceleration * timeFactor;
+    // Acceleration is WAY too high here not sure quite why
 }
 
 glm::vec3 RutherfordScattering::Particle::GetNewPosition(glm::vec3& velocity, float delta)
 {
-    return _position + velocity * _constants.simulationTimeFactor * (delta/_constants.expectedMilisecsPerFrame);
+    if (velocity.x != 0) {
+        int i = 0;
+    }
+    return _position + velocity * _constants.simulationScaleFactor * _constants.simulationTimeFactor * (delta/_constants.expectedMilisecsPerFrame);
 }
 
 void RutherfordScattering::Particle::CreateGraphics()

@@ -21,6 +21,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 	const int numProtons = _constants.numProtonsPerAlpha;
 	const int numNucleons = _constants.numNeutronsPerAlpha + numProtons;
 	const int alphaParticleSpeed = _constants.alphaParticleInitialSpeed;
+	constexpr float maxNumParticlesEmittedPerFrame = 3.0f;
 
 	for (auto& alphasource : _alphaSources) {
 		alphasource.SetPos(glm::vec3({ _constants.alphaSourcePos.x, _constants.alphaSourcePos.y, 0 }));
@@ -31,6 +32,7 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 		alphasource.SetEmissionRate(_constants.alphaSourceEmissionRate);
 
 		float numParticlesToEmit = alphasource.GetEmissionRate() * (delta/_constants.expectedMilisecsPerFrame);
+		numParticlesToEmit = std::max(numParticlesToEmit, maxNumParticlesEmittedPerFrame);
 
 		float numParticlesToGenerate;
 		float fractionalnumParticlesToGenerate = std::modf(numParticlesToEmit, &numParticlesToGenerate);
@@ -178,8 +180,8 @@ RutherfordScattering::Simulation::~Simulation()
 void RutherfordScattering::Simulation::ProcessSimulationFrame(float delta)
 {
 	ProcessAlphaEmissions(delta);
-	ProcessParticleMovement(delta);
 	ProcessElectrostaticForces(delta);
+	ProcessParticleMovement(delta);
 }
 
 void RutherfordScattering::Simulation::UpdateStaticParticles()
