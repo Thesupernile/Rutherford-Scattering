@@ -16,6 +16,15 @@ void RutherfordScattering::Simulation::CreateAlphaSources()
 	_alphaSources[0].SetPos(glm::vec3({ 15, 350, 0 }));
 }
 
+glm::vec3 RutherfordScattering::Simulation::GetAlphaSourceOffset(AlphaSource& alphaSource) {
+	glm::vec3 alphaSourceOffset{};
+
+	alphaSourceOffset.x = alphaSource.GetScale() / 2 + alphaSource.GetScale() / 2 * cos(alphaSource.GetAngle());
+	alphaSourceOffset.y = alphaSource.GetScale() / 2 + alphaSource.GetScale() / 2 * sin(alphaSource.GetAngle());
+
+	return alphaSourceOffset;
+}
+
 void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 {
 	const int numProtons = _constants.numProtonsPerAlpha;
@@ -60,15 +69,33 @@ void RutherfordScattering::Simulation::ProcessAlphaEmissions(float delta)
 			float yVelocity = sin(emissionAngle) * alphaParticleSpeed;
 
 			// Offset to position the spawned alpha particle at the front of the source
-			float offsetX = alphasource.GetScale() / 2 + alphasource.GetScale() / 2 * cos(alphasource.GetAngle());
-			float offsetY = alphasource.GetScale() / 2 + alphasource.GetScale() / 2 * sin(alphasource.GetAngle());
+			glm::vec3 alphaSourceOffset = GetAlphaSourceOffset(alphasource);
 
-			_particles.back().SetPos(alphasource.GetPos() + glm::vec3({offsetX, offsetY, 0}));
+			_particles.back().SetPos(alphasource.GetPos() + glm::vec3({alphaSourceOffset.x, alphaSourceOffset.y, 0}));
 			_particles.back().SetVelocity(glm::vec3({ xVelocity, yVelocity, 0 }));
 			_particles.back().SetTimeToLive(_constants.defaultParticleTTL);
 			_particles.back().SetPersistent(false);
 		}
 	}
+}
+
+bool RutherfordScattering::Simulation::isParticleDeflected(glm::vec3& finalParticlePos) {
+	// Potential for a pointer to the origin alpha source to be stored in the particle
+	glm::vec3 alphaParticleStartOffset = GetAlphaSourceOffset(_alphaSources[0]);
+
+	float travelledY = finalParticlePos.y - (_constants.alphaSourcePos.y + alphaParticleStartOffset.y);
+	float travelledX = finalParticlePos.x - (_constants.alphaSourcePos.x + alphaParticleStartOffset.x);
+
+	float maxEmissionAngle = _constants.alphaSourceAngleRads() + _constants.alphaSourceSpreadRads();
+	float minEmissionAngle = _constants.alphaSourceAngleRads() - _constants.alphaSourceSpreadRads();
+
+	float maxY = travelledX * tan(maxEmissionAngle);
+	float minY = travelledX * tan(minEmissionAngle);
+
+	if (travelledY > minY && travelledY < maxY) {
+		return false;
+	}
+	return true;
 }
 
 void RutherfordScattering::Simulation::ProcessParticleMovement(float delta)
@@ -94,16 +121,11 @@ void RutherfordScattering::Simulation::ProcessParticleMovement(float delta)
 		glm::vec3 finalParticlePos = iter->GetPos();
 
 		// Process counting of particles
-		float travelledY = finalParticlePos.y - _constants.alphaSourcePos.y;
-		float travelledX = finalParticlePos.x - _constants.alphaSourcePos.x;
-		float maxEmssionAngle = _constants.alphaSourceAngleRads() + _constants.alphaSourceSpreadRads();
-		float minEmissionAngle = _constants.alphaSourceAngleRads() - _constants.alphaSourceSpreadRads();
-
 		_numParticlesSimulated++;
 		if (finalParticlePos.x < _constants.foilPos.x) {
 			_numParticlesBackscattered++;
 		}
-		else if (travelledY > sin(maxEmssionAngle) * travelledX || travelledY < sin(minEmissionAngle) * travelledX) {
+		else if (isParticleDeflected(finalParticlePos)) {
 			_numParticlesDeflected++;
 		}
 

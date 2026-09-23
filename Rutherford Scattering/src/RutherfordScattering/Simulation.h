@@ -27,11 +27,14 @@ namespace RutherfordScattering {
 		void CreateFoil();
 		void CreateAlphaSources();
 
+		glm::vec3 GetAlphaSourceOffset(AlphaSource& alphaSource);
 		void ProcessAlphaEmissions(float delta);
 		void ProcessParticleMovement(float delta);
 
 		void ProcessParticleForcesOneThread(float delta);
 		void ProcessElectrostaticForces(float delta);
+
+		bool isParticleDeflected(glm::vec3& finalParticlePos);
 	public:
 		Simulation();
 		~Simulation();
